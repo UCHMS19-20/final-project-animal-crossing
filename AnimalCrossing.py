@@ -1,4 +1,4 @@
-conda install -c conda-forge jupyterlab
+
 
 #import sys and pygame
 import sys
