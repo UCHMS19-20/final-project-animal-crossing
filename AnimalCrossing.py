@@ -74,7 +74,7 @@ class game():
             self.update()
             self.draw()
 
-    #ends the game
+    # ends the game
     def quit(self):
             pygame.quit()
         sys.exit()
@@ -120,5 +120,5 @@ class game():
     #shows go screen
     def show_go_screen(self):
         pass
-
+    
 
