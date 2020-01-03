@@ -1,3 +1,5 @@
+
+
 #import sys and pygame
 import sys
 import pygame
@@ -6,7 +8,6 @@ pygame.init()
 
 #import pygame font
 pygame.font.init()
-
 
 # setting the WIDTH & HEIGHT of the screen and the movement speed
 WIDTH = 1024   
