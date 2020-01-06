@@ -9,40 +9,46 @@ LIGHTGREY = (100, 100, 100)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
-BGCOLOR = DARKGREY
+BGCOLOR = BLACK
 
 # setting the parameters for the screen
 WIDTH = 1024   
 HEIGHT = 768  
 FPS = 60
 TITLE = "Animal Crossing"
-TILESIZE = 32
+TILESIZE = 48
 # sizes of the grids
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 class Player(pygame.sprite.Sprite): # player that can be moved by keys
     def __init__(self, game, x, y):
+        """creates the icon that the player can move around on the grid"""
         self.groups = game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pygame.Surface((TILESIZE, TILESIZE))
-        self.image.fill(RED)
+        self.image = pygame.image.load("src/img/villager.png")
         self.rect = self.image.get_rect()
+        screen.blit(self.image, self.rect)
         self.x = x
         self.y = y
-
+        
+        
     def move(self, dx=0, dy=0):
+        """ moves the player"""
         self.x += dx
         self.y += dy
 
     def update(self):
+        """updates the player's position"""
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE
 
-class Wall(pygame.sprite.Sprite): #make a wall that shows on the screen
+class Wall(pygame.sprite.Sprite): 
     def __init__(self, game, x, y):
+        """makes the wall that shows up on the screen"""
         self.groups = game.all_sprites, game.walls
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
