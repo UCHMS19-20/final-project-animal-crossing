@@ -52,13 +52,12 @@ class Wall(pygame.sprite.Sprite):
         self.groups = game.all_sprites, game.walls
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pygame.Surface((TILESIZE, TILESIZE))
-        self.image.fill(GREEN)
+        self.image = pygame.image.load("src/img/townhall.png")
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
+        self.rect.x = 2 * TILESIZE
+        self.rect.y = 5 * TILESIZE
 
 class Game:
     def __init__(self):
@@ -99,9 +98,9 @@ class Game:
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
-            pygame.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
+            pygame.draw.line(self.screen, DARKGREY, (x, 0), (x, HEIGHT))
         for y in range(0, HEIGHT, TILESIZE):
-            pygame.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
+            pygame.draw.line(self.screen, DARKGREY, (0, y), (WIDTH, y))
 
     def draw(self):
         self.screen.fill(BGCOLOR)
