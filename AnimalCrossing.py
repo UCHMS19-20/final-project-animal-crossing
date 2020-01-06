@@ -1,62 +1,71 @@
-
-
-#import sys and pygame
+import pygame 
 import sys
-import pygame
-#initialize pygame
-pygame.init()
 
-#import pygame font
-pygame.font.init()
+# predefining some colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+DARKGREY = (40, 40, 40)
+LIGHTGREY = (100, 100, 100)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+YELLOW = (255, 255, 0)
+BGCOLOR = DARKGREY
 
-# setting the WIDTH & HEIGHT of the screen and the movement speed
+# setting the parameters for the screen
 WIDTH = 1024   
 HEIGHT = 768  
 FPS = 60
-
-#title of the game
-TITLE = "Animal_Crossing"
-
-#colors of stuff
-BACKGROUND = (0, 0, 0)
-GREY = (40, 40, 40)
-
-#size of each tile
+TITLE = "Animal Crossing"
 TILESIZE = 32
-#how many squares are on the screen
-GWIDTH = WIDTH / TILESIZE
-GHEIGHT = HEIGHT / TILESIZE
+# sizes of the grids
+GRIDWIDTH = WIDTH / TILESIZE
+GRIDHEIGHT = HEIGHT / TILESIZE
 
-#create player class
-class Player(pygame.sprite.Sprite):
-    """player Class"""
+
+class Player(pygame.sprite.Sprite): # player that can be moved by keys
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pygame.Surface()
-        self.image.fill(GREY)
+        self.image = pygame.Surface((TILESIZE, TILESIZE))
+        self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-    # size of player based on tilesize 
+
+    def move(self, dx=0, dy=0):
+        self.x += dx
+        self.y += dy
+
     def update(self):
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE
 
-#main loop and functions for the game
-class game():
-    """game class"""
-    #display screen and title
+class Wall(pygame.sprite.Sprite): #make a wall that shows on the screen
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.walls
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.Surface((TILESIZE, TILESIZE))
+        self.image.fill(GREEN)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
+class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
+        self.clock = pygame.time.Clock()
+        pygame.key.set_repeat(500, 100)
+        self.load_data()
 
     def load_data(self):
         pass
 
-    # initialize all variables and do setup for a new game
     def new(self):
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pygame.sprite.Group()
@@ -65,42 +74,39 @@ class game():
         for x in range(10, 20):
             Wall(self, x, 5)
 
-    #where the game loops; if self.playing == false, then the game ends
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
         while self.playing:
-            self.speed = FPS
+            self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
             self.draw()
 
-    # ends the game
     def quit(self):
         pygame.quit()
         sys.exit()
 
-    #update sprites during the game
     def update(self):
+        # update portion of the game loop
         self.all_sprites.update()
 
-    # draw the grids on the screen
     def draw_grid(self):
-        for x in range (0, WIDTH, TILESIZE):
-            pygame.draw.line(self.screen, GREY, (x, 0), (x, HEIGHT))
-        for y in range (0, HEIGHT, TILESIZE):
-            pygame.draw.line(self.screen, GREY, (0, y), (WIDTH, y))
+        for x in range(0, WIDTH, TILESIZE):
+            pygame.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
+        for y in range(0, HEIGHT, TILESIZE):
+            pygame.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw(self):
-        self.screen.fill(BACKGROUND)
+        self.screen.fill(BGCOLOR)
         self.draw_grid()
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
 
-    # allows the player to quit and move
     def events(self):
+        # catch all events here
         for event in pygame.event.get():
-            if event.type == pygame.quit:
+            if event.type == pygame.QUIT:
                 self.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -114,10 +120,16 @@ class game():
                 if event.key == pygame.K_DOWN:
                     self.player.move(dy=1)
 
-    # shows start screen
     def show_start_screen(self):
         pass
 
-    #shows go screen
     def show_go_screen(self):
         pass
+
+# create the game object
+g = Game()
+g.show_start_screen()
+while True:
+    g.new()
+    g.run()
+    g.show_go_screen()
