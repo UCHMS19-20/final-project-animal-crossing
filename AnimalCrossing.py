@@ -42,10 +42,18 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
             self.x += dx
             self.y += dy
 
-    def wall_collide(self, dx =0, dy=0):
+    def wall_collide(self, dx = 0, dy = 0):
         """makes the wall solid and doesnt let player pass through"""
+        wall_there_x = False
+        wall_there_y = False
         for wall in self.game.walls:
-            if wall.x == self.x + dx and wall.y == self.y + dy:
+            for n in (0, 2, 1): 
+                if wall.x + n == self.x + dx:
+                    wall_there_x = True
+            for m in (0, 3, 1):
+                if wall.y + m  == self.y + dy:
+                    wall_there_y = True
+            while wall_there_x and wall_there_y == True:
                 return True
         return False
 
@@ -54,7 +62,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE
 
-class Wall(pygame.sprite.Sprite): 
+class House(pygame.sprite.Sprite): 
     def __init__(self, game, x, y):
         """makes the wall that shows up on the screen"""
         self.groups = game.all_sprites, game.walls
@@ -85,7 +93,7 @@ class Game:
         self.walls = pygame.sprite.Group()
         self.player = Player(self, 10, 10)
         for x in range(10, 20):
-            Wall(self, x, 5)
+            House(self, 5, 3)
 
     def run(self):
         # game loop - set self.playing = False to end the game
