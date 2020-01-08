@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
             self.x += dx
             self.y += dy
 
-    def wall_collide(self, dx = 0, dy = 0):
+    def house_collide(self, dx = 0, dy = 0):
         """makes the wall solid and doesnt let player pass through"""
         wall_there_x = False
         wall_there_y = False
