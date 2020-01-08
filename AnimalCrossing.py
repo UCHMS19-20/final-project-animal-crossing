@@ -12,8 +12,8 @@ YELLOW = (255, 255, 0)
 BGCOLOR = BLACK
 
 # setting the parameters for the screen
-WIDTH = 1024   
-HEIGHT = 768  
+WIDTH = 1056   
+HEIGHT = 624
 FPS = 60
 TITLE = "Animal Crossing"
 TILESIZE = 48
@@ -38,8 +38,16 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         
     def move(self, dx=0, dy=0):
         """ moves the player"""
-        self.x += dx
-        self.y += dy
+        if not self.wall_collide(dx,dy):
+            self.x += dx
+            self.y += dy
+
+    def wall_collide(self, dx =0, dy=0):
+        """makes the wall solid and doesnt let player pass through"""
+        for wall in self.game.walls:
+            if wall.x == self.x + dx and wall.y == self.y + dy:
+                return True
+        return False
 
     def update(self):
         """updates the player's position"""
@@ -56,8 +64,8 @@ class Wall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.rect.x = 2 * TILESIZE
-        self.rect.y = 5 * TILESIZE
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
 class Game:
     def __init__(self):
