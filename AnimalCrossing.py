@@ -114,13 +114,18 @@ class Game:
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
-            pygame.draw.line(self.screen, DARKGREY, (x, 0), (x, HEIGHT))
+            pygame.draw.line(self.screen, GREEN, (x, 0), (x, HEIGHT))
         for y in range(0, HEIGHT, TILESIZE):
-            pygame.draw.line(self.screen, DARKGREY, (0, y), (WIDTH, y))
+            pygame.draw.line(self.screen, GREEN, (0, y), (WIDTH, y))
 
     def draw(self):
-        self.screen.fill(BGCOLOR)
+        # draw the grid
         self.draw_grid()
+        # draw the background grass
+        self.screenimage = pygame.image.load("src/img/grass.png")
+        self.rect = self.screenimage.get_rect()
+        screen.blit(self.screenimage, self.rect)
+        # draw sprites
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
 
