@@ -38,7 +38,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         
     def move(self, dx=0, dy=0):
         """ moves the player"""
-        if not self.wall_collide(dx,dy):
+        if not self.house_collide(dx,dy):
             self.x += dx
             self.y += dy
 
