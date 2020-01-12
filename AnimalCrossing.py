@@ -47,12 +47,10 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         screen_there_x = False
         screen_there_y = False
         for wall in self.game.walls:
-            for n in (0, GRIDWIDTH, 1):
-                if GRIDWIDTH + n == self.x + dx:
-                    screen_there_x = True
-            for n in (0, GRIDHEIGHT, 1):
-                if GRIDHEIGHT + n == self.y + dy:
-                    screen_there_y = True
+            if GRIDWIDTH + 1 == self.x + dx:
+                 screen_there_x = True
+            if GRIDHEIGHT + 1 == self.y + dy:
+                 screen_there_y = True
             while screen_there_x and screen_there_y == True:
                 return True
         return False
@@ -78,9 +76,10 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE
 
-class House(pygame.sprite.Sprite): 
+# seperate classes for town hall and houses/trees bc town hall is 2x3 squares and trees/houses are 2x2 squares
+class Hall(pygame.sprite.Sprite): 
     def __init__(self, game, x, y):
-        """makes the house that shows up on the screen"""
+        """makes the town hall that shows up on the screen"""
         self.groups = game.all_sprites, game.walls
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -90,6 +89,20 @@ class House(pygame.sprite.Sprite):
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+
+class Tree1(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        """makes tree"""
+        self.groups = game.all_sprites, game.walls
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.image.load("src/img/tree1.png")
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
 
 class Game:
     """Game class"""
@@ -111,8 +124,18 @@ class Game:
         self.all_sprites = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.player = Player(self, 10, 10)
+
+        #town hall position
+        Hall_position_x = 5
+        Hall_position_y = 3
         for x in range(10, 20):
-            House(self, 5, 3)
+            Hall(self, Hall_position_x, Hall_position_y)
+
+        #tree 1 position
+        tree1_x = 8
+        tree1_y = 7
+        for x in range(10,20):
+            Tree1(self, tree1_x, tree1_y)
 
     def run(self):
         """game loop"""
@@ -141,12 +164,17 @@ class Game:
 
     def draw(self):
         """draw everything on the screen"""
-        # draw the grid
+        # draw the grid 
         self.draw_grid()
+
         # draw the background grass
-        self.screenimage = pygame.image.load("src/img/grass.png")
+        self.screenimage = pygame.image.load("src/img/grass2.png")
         self.rect = self.screenimage.get_rect()
         screen.blit(self.screenimage, self.rect)
+
+        # #draw the grid
+        # self.draw_grid()
+
         # draw sprites
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
