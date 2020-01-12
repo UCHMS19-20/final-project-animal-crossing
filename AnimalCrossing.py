@@ -24,7 +24,7 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 class Player(pygame.sprite.Sprite): # player that can be moved by keys
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y): 
         """creates the icon that the player can move around on the grid"""
         self.groups = game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
@@ -38,9 +38,24 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         
     def move(self, dx=0, dy=0):
         """ moves the player"""
-        if not self.house_collide(dx,dy):
+        if not self.house_collide(dx,dy) and not self.screen_bounds(dx,dy):
             self.x += dx
             self.y += dy
+
+    def screen_bounds(self, dx = 0, dy = 0):
+        """makes it so the player cannot move past the width and height constraints of the screen"""
+        screen_there_x = False
+        screen_there_y = False
+        for wall in self.game.walls:
+            for n in (0, GRIDWIDTH, 1):
+                if GRIDWIDTH + n == self.x + dx:
+                    screen_there_x = True
+            for n in (0, GRIDHEIGHT, 1):
+                if GRIDHEIGHT + n == self.y + dy:
+                    screen_there_y = True
+            while screen_there_x and screen_there_y == True:
+                return True
+        return False
 
     def house_collide(self, dx = 0, dy = 0):
         """makes the wall solid and doesnt let player pass through"""
@@ -57,6 +72,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
                 return True
         return False
 
+
     def update(self):
         """updates the player's position"""
         self.rect.x = self.x * TILESIZE
@@ -64,7 +80,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
 
 class House(pygame.sprite.Sprite): 
     def __init__(self, game, x, y):
-        """makes the wall that shows up on the screen"""
+        """makes the house that shows up on the screen"""
         self.groups = game.all_sprites, game.walls
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -76,7 +92,9 @@ class House(pygame.sprite.Sprite):
         self.rect.y = y * TILESIZE
 
 class Game:
+    """Game class"""
     def __init__(self):
+        """creates screen"""
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
@@ -85,10 +103,11 @@ class Game:
         self.load_data()
 
     def load_data(self):
+        """loads data"""
         pass
 
     def new(self):
-        # initialize all variables and do all the setup for a new game
+        """initializes all variables and places all the sprites on the grid"""
         self.all_sprites = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.player = Player(self, 10, 10)
@@ -96,7 +115,7 @@ class Game:
             House(self, 5, 3)
 
     def run(self):
-        # game loop - set self.playing = False to end the game
+        """game loop"""
         self.playing = True
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000
@@ -105,20 +124,23 @@ class Game:
             self.draw()
 
     def quit(self):
+        """quit the game"""
         pygame.quit()
         sys.exit()
 
     def update(self):
-        # update portion of the game loop
+        """update portion of the game loop"""
         self.all_sprites.update()
 
     def draw_grid(self):
+        """draw the grid"""
         for x in range(0, WIDTH, TILESIZE):
             pygame.draw.line(self.screen, GREEN, (x, 0), (x, HEIGHT))
         for y in range(0, HEIGHT, TILESIZE):
             pygame.draw.line(self.screen, GREEN, (0, y), (WIDTH, y))
 
     def draw(self):
+        """draw everything on the screen"""
         # draw the grid
         self.draw_grid()
         # draw the background grass
@@ -130,7 +152,7 @@ class Game:
         pygame.display.flip()
 
     def events(self):
-        # catch all events here
+        """catch all events here"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit()
