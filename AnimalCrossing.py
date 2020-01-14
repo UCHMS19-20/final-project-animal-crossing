@@ -22,9 +22,12 @@ GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
 #player settings
-PLAYER_SPEED = 130
+PLAYER_SPEED = 100
 
 
+pygame.mixer.init()
+pygame.mixer.music.load("src/3pm.mp3")
+pygame.mixer.music.play(-1,0.0)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -42,10 +45,28 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.vx, self.vy = 0, 0
  
     def smooth_movement(self):
-        # self.get_keys()
+        """allows player to move smoothly"""
+        # initial velocity
         self.vx, self.vy = 0, 0
+
         key = pygame.key.get_pressed()
-        if key[pygame.K_LEFT]:
+
+        # diagonal movement
+        if key[pygame.K_LEFT] and key[pygame.K_UP]:
+            self.vy = -PLAYER_SPEED
+            self.vx = -PLAYER_SPEED
+        elif key[pygame.K_LEFT] and key[pygame.K_DOWN]:
+            self.vy = PLAYER_SPEED
+            self.vx = -PLAYER_SPEED
+        elif key[pygame.K_RIGHT] and key[pygame.K_UP]:
+            self.vy = -PLAYER_SPEED
+            self.vx = PLAYER_SPEED
+        elif key[pygame.K_RIGHT] and key[pygame.K_DOWN]:
+            self.vy = PLAYER_SPEED
+            self.vx = PLAYER_SPEED
+
+        # straight line mov ement
+        elif key[pygame.K_LEFT]:
             self.vx = -PLAYER_SPEED
         elif key[pygame.K_RIGHT]:
             self.vx = PLAYER_SPEED
