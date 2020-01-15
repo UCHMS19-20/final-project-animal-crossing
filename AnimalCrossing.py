@@ -14,12 +14,20 @@ BGCOLOR = BLACK
 # setting the parameters for the screen
 WIDTH = 1056   
 HEIGHT = 624
-FPS = 60
+FPS = 100
 TITLE = "Animal Crossing"
 TILESIZE = 48
 # sizes of the grids
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
+
+#player settings
+PLAYER_SPEED = 100
+
+
+pygame.mixer.init()
+pygame.mixer.music.load("src/3pm.mp3")
+pygame.mixer.music.play(-1,0.0)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -32,8 +40,40 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.image = pygame.image.load("src/img/villager.png")
         self.rect = self.image.get_rect()
         screen.blit(self.image, self.rect)
-        self.x = x
-        self.y = y
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+        self.vx, self.vy = 0, 0
+ 
+    def smooth_movement(self):
+        """allows player to move smoothly"""
+        # initial velocity
+        self.vx, self.vy = 0, 0
+
+        key = pygame.key.get_pressed()
+
+        # diagonal movement
+        if key[pygame.K_LEFT] and key[pygame.K_UP]:
+            self.vy = -PLAYER_SPEED
+            self.vx = -PLAYER_SPEED
+        elif key[pygame.K_LEFT] and key[pygame.K_DOWN]:
+            self.vy = PLAYER_SPEED
+            self.vx = -PLAYER_SPEED
+        elif key[pygame.K_RIGHT] and key[pygame.K_UP]:
+            self.vy = -PLAYER_SPEED
+            self.vx = PLAYER_SPEED
+        elif key[pygame.K_RIGHT] and key[pygame.K_DOWN]:
+            self.vy = PLAYER_SPEED
+            self.vx = PLAYER_SPEED
+
+        # straight line mov ement
+        elif key[pygame.K_LEFT]:
+            self.vx = -PLAYER_SPEED
+        elif key[pygame.K_RIGHT]:
+            self.vx = PLAYER_SPEED
+        elif key[pygame.K_UP]:
+            self.vy = -PLAYER_SPEED
+        elif key[pygame.K_DOWN]:
+            self.vy = PLAYER_SPEED
         
         
     def move(self, dx=0, dy=0):
@@ -42,39 +82,42 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
             self.x += dx
             self.y += dy
 
-    def screen_bounds(self, dx = 0, dy = 0):
-        """makes it so the player cannot move past the width and height constraints of the screen"""
-        screen_there_x = False
-        screen_there_y = False
-        for wall in self.game.walls:
-            if GRIDWIDTH + 1 == self.x + dx:
-                 screen_there_x = True
-            if GRIDHEIGHT + 1 == self.y + dy:
-                 screen_there_y = True
-            while screen_there_x and screen_there_y == True:
-                return True
-        return False
+    # def screen_bounds(self, dx = 0, dy = 0):
+    #     """makes it so the player cannot move past the width and height constraints of the screen"""
+    #     screen_there_x = False
+    #     screen_there_y = False
+    #     for wall in self.game.walls:
+    #         if GRIDWIDTH + 1 == self.x + dx:
+    #              screen_there_x = True
+    #         if GRIDHEIGHT + 1 == self.y + dy:
+    #              screen_there_y = True
+    #         while screen_there_x and screen_there_y == True:
+    #             return True
+    #     return False
 
-    def house_collide(self, dx = 0, dy = 0):
-        """makes the wall solid and doesnt let player pass through"""
-        wall_there_x = False
-        wall_there_y = False
-        for wall in self.game.walls:
-            for n in (0, 2, 1): 
-                if wall.x + n == self.x + dx:
-                    wall_there_x = True
-            for m in (0, 3, 1):
-                if wall.y + m  == self.y + dy:
-                    wall_there_y = True
-            while wall_there_x and wall_there_y == True:
-                return True
-        return False
+    # def house_collide(self, dx = 0, dy = 0):
+    #     """makes the wall solid and doesnt let player pass through"""
+    #     wall_there_x = False
+    #     wall_there_y = False
+    #     for wall in self.game.walls:
+    #         for n in (0, 2, 1): 
+    #             if wall.x + n == self.x + dx:
+    #                 wall_there_x = True
+    #         for m in (0, 3, 1):
+    #             if wall.y + m  == self.y + dy:
+    #                 wall_there_y = True
+    #         while wall_there_x and wall_there_y == True:
+    #             return True
+    #     return False
 
 
     def update(self):
         """updates the player's position"""
-        self.rect.x = self.x * TILESIZE
-        self.rect.y = self.y * TILESIZE
+        self.smooth_movement()
+        self.x += self.vx * self.game.dt
+        self.y += self.vy * self.game.dt
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 # seperate classes for town hall and houses/trees bc town hall is 2x3 squares and trees/houses are 2x2 squares
 class Hall(pygame.sprite.Sprite): 
@@ -123,19 +166,14 @@ class Game:
         """initializes all variables and places all the sprites on the grid"""
         self.all_sprites = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
+        #player position
         self.player = Player(self, 10, 10)
 
         #town hall position
-        Hall_position_x = 5
-        Hall_position_y = 3
-        for x in range(10, 20):
-            Hall(self, Hall_position_x, Hall_position_y)
+        Hall(self, 5, 3)
 
         #tree 1 position
-        tree1_x = 8
-        tree1_y = 7
-        for x in range(10,20):
-            Tree1(self, tree1_x, tree1_y)
+        Tree1(self, 8, 7)
 
     def run(self):
         """game loop"""
@@ -187,14 +225,14 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
-                if event.key == pygame.K_LEFT:
-                    self.player.move(dx=-1)
-                if event.key == pygame.K_RIGHT:
-                    self.player.move(dx=1)
-                if event.key == pygame.K_UP:
-                    self.player.move(dy=-1)
-                if event.key == pygame.K_DOWN:
-                    self.player.move(dy=1)
+                # if event.key == pygame.K_LEFT:
+                #     self.player.move(dx=-1)
+                # if event.key == pygame.K_RIGHT:
+                #     self.player.move(dx=1)
+                # if event.key == pygame.K_UP:
+                #     self.player.move(dy=-1)
+                # if event.key == pygame.K_DOWN:
+                #     self.player.move(dy=1)
 
     def show_start_screen(self):
         pass
