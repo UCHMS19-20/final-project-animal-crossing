@@ -171,7 +171,7 @@ class Game:
         textSurface = font.render(text, True, black)
         return textSurface, textSurface.get_rect()
 
-    def start_screen(self):
+    def title_screen(self):
         """displays the start screen"""
         screen.fill(WHITE)
         self.screenimage = pygame.image.load("src/img/grass.png")
@@ -255,8 +255,12 @@ class Game:
 # create the game object
 g = Game() # abbreviation for game class
 g.show_start_screen()
-g.start_screen()
-while True:
-    g.new()
-    g.run()
-    g.show_go_screen()
+g.title_screen()
+
+key = pygame.key.get_pressed()
+
+if key[pygame.K_SPACE]:
+    while True:
+        g.new()
+        g.run()
+        g.show_go_screen()
