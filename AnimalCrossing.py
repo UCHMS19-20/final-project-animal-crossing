@@ -24,14 +24,16 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 #player settings
 PLAYER_SPEED = 100
 
-
+# play background music
 pygame.mixer.init()
 pygame.mixer.music.load("src/3pm.mp3")
 pygame.mixer.music.play(-1,0.0)
 
+# display screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 class Player(pygame.sprite.Sprite): # player that can be moved by keys
+    """Player class"""
     def __init__(self, game, x, y): 
         """creates the icon that the player can move around on the grid"""
         self.groups = game.all_sprites
@@ -65,7 +67,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
             self.vy = PLAYER_SPEED
             self.vx = PLAYER_SPEED
 
-        # straight line mov ement
+        # straight line movement
         elif key[pygame.K_LEFT]:
             self.vx = -PLAYER_SPEED
         elif key[pygame.K_RIGHT]:
@@ -95,32 +97,34 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
     #             return True
     #     return False
 
-    # def house_collide(self, dx = 0, dy = 0):
-    #     """makes the wall solid and doesnt let player pass through"""
-    #     wall_there_x = False
-    #     wall_there_y = False
-    #     for wall in self.game.walls:
-    #         for n in (0, 2, 1): 
-    #             if wall.x + n == self.x + dx:
-    #                 wall_there_x = True
-    #         for m in (0, 3, 1):
-    #             if wall.y + m  == self.y + dy:
-    #                 wall_there_y = True
-    #         while wall_there_x and wall_there_y == True:
-    #             return True
-    #     return False
+    def house_collide(self, dx = 0, dy = 0):
+        """makes the wall solid and doesnt let player pass through"""
+        wall_there_x = False
+        wall_there_y = False
+        for wall in self.game.walls:
+            for n in (0, 2, 1): 
+                if wall.x + n == self.x + dx:
+                    wall_there_x = True
+            for m in (0, 3, 1):
+                if wall.y + m  == self.y + dy:
+                    wall_there_y = True
+            while wall_there_x and wall_there_y == True:
+                return True
+        return False
 
 
-    def update(self):
+    def update(self, x = 0, y = 0):
         """updates the player's position"""
         self.smooth_movement()
-        self.x += self.vx * self.game.dt
-        self.y += self.vy * self.game.dt
-        self.rect.x = self.x
-        self.rect.y = self.y
+        if not self.house_collide(x,y):
+            self.x += self.vx * self.game.dt
+            self.y += self.vy * self.game.dt
+            self.rect.x = self.x
+            self.rect.y = self.y
 
 # seperate classes for town hall and houses/trees bc town hall is 2x3 squares and trees/houses are 2x2 squares
 class Hall(pygame.sprite.Sprite): 
+    """Hall class"""
     def __init__(self, game, x, y):
         """makes the town hall that shows up on the screen"""
         self.groups = game.all_sprites, game.walls
@@ -134,6 +138,7 @@ class Hall(pygame.sprite.Sprite):
         self.rect.y = y * TILESIZE
 
 class Tree1(pygame.sprite.Sprite):
+    """Tree class"""
     def __init__(self, game, x, y):
         """makes tree"""
         self.groups = game.all_sprites, game.walls
@@ -162,10 +167,24 @@ class Game:
         """loads data"""
         pass
 
+    def text_objects(text, font):
+        textSurface = font.render(text, True, black)
+        return textSurface, textSurface.get_rect()
+
+    def title_screen(self):
+        """displays the start screen"""
+        screen.fill(WHITE)
+        self.screenimage = pygame.image.load("src/img/grass.png")
+        self.rect = self.screenimage.get_rect()
+        screen.blit(self.screenimage, self.rect)
+        pygame.display.flip()
+
+
     def new(self):
         """initializes all variables and places all the sprites on the grid"""
         self.all_sprites = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
+
         #player position
         self.player = Player(self, 10, 10)
 
@@ -225,14 +244,7 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
-                # if event.key == pygame.K_LEFT:
-                #     self.player.move(dx=-1)
-                # if event.key == pygame.K_RIGHT:
-                #     self.player.move(dx=1)
-                # if event.key == pygame.K_UP:
-                #     self.player.move(dy=-1)
-                # if event.key == pygame.K_DOWN:
-                #     self.player.move(dy=1)
+
 
     def show_start_screen(self):
         pass
@@ -241,9 +253,14 @@ class Game:
         pass
 
 # create the game object
-g = Game()
+g = Game() # abbreviation for game class
 g.show_start_screen()
-while True:
-    g.new()
-    g.run()
-    g.show_go_screen()
+g.title_screen()
+
+key = pygame.key.get_pressed()
+
+if key[pygame.K_SPACE]:
+    while True:
+        g.new()
+        g.run()
+        g.show_go_screen()
