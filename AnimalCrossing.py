@@ -229,18 +229,6 @@ class Game:
 
         # self.intro()
 
-        # mainmenu = pygame.image.load("src/img/mainmenu.png") 
-        # screen.blit(mainmenu,(0,0))
-        # pygame.display.flip()
-        # pygame.display.update()
-        # clock.tick(FPS)
-    
-        # if key[pygame.K_LEFT]:
-        #     self.playing == True
-        #     self.screenimage = pygame.image.load("src/img/grass2.png")
-        #     self.rect = self.screenimage.get_rect()
-        #     screen.blit(self.screenimage, self.rect)
-
         main_menu()
 
         while self.playing == True:
@@ -337,13 +325,13 @@ def main_menu():
         # main menu background image
         mainmenu = pygame.image.load("src/img/mainmenu.png") 
         screen.blit(mainmenu,(0,0))
-        pygame.display.flip()
+        
 
         title=text_format("Animal Crossing", font, 90, BLACK)
         if selected=="start":
-            text_start=text_format("press SPACE to start!", font, 75, WHITE)
+            text_start=text_format("press S to start!", font, 75, WHITE)
         else:
-            text_start = text_format("press SPACE to start!", font, 75, WHITE)
+            text_start = text_format("press S to start!", font, 75, WHITE)
         if selected=="quit":
             text_quit=text_format("quit...", font, 75, RED)
         else:
@@ -360,11 +348,11 @@ def main_menu():
         pygame.display.update()
         clock.tick(FPS)
         pygame.display.set_caption("main menu")
-
+        pygame.display.flip()
         key = pygame.key.get_pressed()
 
 
-        if key[pygame.K_SPACE]:
+        if key[pygame.K_s]:
             break
 
         
