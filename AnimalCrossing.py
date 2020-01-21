@@ -282,9 +282,17 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
 
-    # def intro(self):
-    #     """uhh"""
-    #     Isabelle(self, 10, 10)
+    def intro(self):
+        """uhh"""
+        key = pygame.key.get_pressed()
+
+        Isabelle(self, 10, 10)
+        key = pygame.key.get_pressed()
+        if key[pygame.K_BACKSPACE]:
+            self.screenimage = pygame.image.load("src/img/tree1.png")
+            self.rect = self.screenimage.get_rect()
+            screen.blit(self.screenimage, self.rect)
+            pygame.display.flip()
 
     def show_start_screen(self):
         pass
@@ -357,7 +365,9 @@ g = Game() # abbreviation for game class
 g.show_start_screen()
 
 
+
 while True: 
     g.new()
     g.run()
+    g.intro()
     g.show_go_screen()
