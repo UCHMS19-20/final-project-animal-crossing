@@ -209,6 +209,19 @@ class Game:
     def run(self):
         """game loop"""
         self.playing = True
+        key = pygame.key.get_pressed()
+
+        # mainmenu = pygame.image.load("src/img/mainmenu.png") 
+        # screen.blit(mainmenu,(0,0))
+        # pygame.display.flip()
+        # pygame.display.update()
+        # clock.tick(FPS)
+    
+        if key[pygame.K_LEFT]:
+            self.playing == True
+            self.screenimage = pygame.image.load("src/img/grass2.png")
+            self.rect = self.screenimage.get_rect()
+            screen.blit(self.screenimage, self.rect)
 
         while self.playing == True:
             self.dt = self.clock.tick(FPS) / 1000
@@ -262,65 +275,63 @@ class Game:
     def show_go_screen(self):
         pass
 
-def main_menu():
+# def main_menu():
      
-    menu=True
-    selected="start"
+#     menu=True
+#     selected="start"
  
-    while menu:
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                pygame.quit()
-                quit()
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_UP:
-                    selected="start"
-                elif event.key==pygame.K_DOWN:
-                    selected="quit"
-                if event.key==pygame.K_RETURN:
-                    if selected=="start":
-                        print("Start")
-                    if selected=="quit":
-                        pygame.quit()
-                        quit()
+#     while menu:
+#         for event in pygame.event.get():
+#             if event.type==pygame.QUIT:
+#                 pygame.quit()
+#                 quit()
+#             if event.type==pygame.KEYDOWN:
+#                 if event.key==pygame.K_UP:
+#                     selected="start"
+#                 elif event.key==pygame.K_DOWN:
+#                     selected="quit"
+#                 if event.key==pygame.K_RETURN:
+#                     if selected=="start":
+#                         print("Start")
+#                     if selected=="quit":
+#                         pygame.quit()
+#                         quit()
  
         
-        # main menu background image
-        mainmenu = pygame.image.load("src/img/mainmenu.png") 
-        screen.blit(mainmenu,(0,0))
-        pygame.display.flip()
+#         # main menu background image
+#         mainmenu = pygame.image.load("src/img/mainmenu.png") 
+#         screen.blit(mainmenu,(0,0))
+#         pygame.display.flip()
 
-        title=text_format("Animal Crossing", font, 90, BLACK)
-        if selected=="start":
-            text_start=text_format("start!", font, 75, WHITE)
-        else:
-            text_start = text_format("start!", font, 75, WHITE)
-        if selected=="quit":
-            text_quit=text_format("quit...", font, 75, RED)
-        else:
-            text_quit = text_format("quit...", font, 75, RED)
+#         title=text_format("Animal Crossing", font, 90, BLACK)
+#         if selected=="start":
+#             text_start=text_format("start!", font, 75, WHITE)
+#         else:
+#             text_start = text_format("start!", font, 75, WHITE)
+#         if selected=="quit":
+#             text_quit=text_format("quit...", font, 75, RED)
+#         else:
+#             text_quit = text_format("quit...", font, 75, RED)
  
-        title_rect=title.get_rect()
-        start_rect=text_start.get_rect()
-        quit_rect=text_quit.get_rect()
+#         title_rect=title.get_rect()
+#         start_rect=text_start.get_rect()
+#         quit_rect=text_quit.get_rect()
  
-        # Main Menu Text
-        screen.blit(title, (WIDTH/2 - (title_rect[2]/2), 80))
-        screen.blit(text_start, (WIDTH/2 - (start_rect[2]/2), 300))
-        screen.blit(text_quit, (WIDTH/2 - (quit_rect[2]/2), 360))
-        pygame.display.update()
-        clock.tick(FPS)
-        pygame.display.set_caption("main menu")
+#         # Main Menu Text
+#         screen.blit(title, (WIDTH/2 - (title_rect[2]/2), 80))
+#         screen.blit(text_start, (WIDTH/2 - (start_rect[2]/2), 300))
+#         screen.blit(text_quit, (WIDTH/2 - (quit_rect[2]/2), 360))
+#         pygame.display.update()
+#         clock.tick(FPS)
+#         pygame.display.set_caption("main menu")
 
-        key = pygame.key.get_pressed()
+#         key = pygame.key.get_pressed()
 
 
-        if key[pygame.K_LEFT]:
-            break
+#         if key[pygame.K_LEFT]:
+#             break
 
         
-
-
 
 
 # create the game object
@@ -328,17 +339,8 @@ g = Game() # abbreviation for game class
 
 g.show_start_screen()
 
-game_started = False
 
-key = pygame.key.get_pressed()
-
-main_menu()
-
-if key[pygame.K_LEFT]:
-    game_started == True
-
-while game_started == True: 
-    
+while True: 
     g.new()
     g.run()
     g.show_go_screen()
