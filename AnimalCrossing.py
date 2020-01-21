@@ -168,6 +168,18 @@ class Tree1(pygame.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
+class Isabelle(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        """makes isabelle (NPC)"""
+        self.groups = game.all_sprites, game.walls
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.image.load("src/img/tree1.png")
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
 class Game:
     """Game class"""
@@ -206,6 +218,8 @@ class Game:
         #tree 1 position
         Tree1(self, 8, 7)
 
+        # Isabelle(self, 10, 10)
+
     def run(self):
         """game loop"""
         self.playing = True
@@ -217,11 +231,11 @@ class Game:
         # pygame.display.update()
         # clock.tick(FPS)
     
-        if key[pygame.K_LEFT]:
-            self.playing == True
-            self.screenimage = pygame.image.load("src/img/grass2.png")
-            self.rect = self.screenimage.get_rect()
-            screen.blit(self.screenimage, self.rect)
+        # if key[pygame.K_LEFT]:
+        #     self.playing == True
+        #     self.screenimage = pygame.image.load("src/img/grass2.png")
+        #     self.rect = self.screenimage.get_rect()
+        #     screen.blit(self.screenimage, self.rect)
 
         while self.playing == True:
             self.dt = self.clock.tick(FPS) / 1000
@@ -268,6 +282,9 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
 
+    # def intro(self):
+    #     """uhh"""
+    #     Isabelle(self, 10, 10)
 
     def show_start_screen(self):
         pass
