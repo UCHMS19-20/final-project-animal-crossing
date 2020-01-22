@@ -26,7 +26,7 @@ GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
 #player settings
-PLAYER_SPEED = 100
+PLAYER_SPEED = 250
 
 # # play background music
 # pygame.mixer.init()
@@ -111,19 +111,6 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         if not self.house_collide(dx,dy) and not self.screen_bounds(dx,dy):
             self.x += dx
             self.y += dy
-
-    # def screen_bounds(self, dx = 0, dy = 0):
-    #     """makes it so the player cannot move past the width and height constraints of the screen"""
-    #     screen_there_x = False
-    #     screen_there_y = False
-    #     for wall in self.game.walls:
-    #         if GRIDWIDTH + 1 == self.x + dx:
-    #              screen_there_x = True
-    #         if GRIDHEIGHT + 1 == self.y + dy:
-    #              screen_there_y = True
-    #         while screen_there_x and screen_there_y == True:
-    #             return True
-    #     return False
 
     def house_collide(self, dx = 0, dy = 0):
         """makes the wall solid and doesnt let player pass through"""
@@ -399,11 +386,6 @@ def name():
 
         if key[pygame.K_RETURN]:
             break
-
-
-
-
-        
 
 
 # create the game object
