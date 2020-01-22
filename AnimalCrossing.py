@@ -26,7 +26,7 @@ GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
 #player settings
-PLAYER_SPEED = 250
+PLAYER_SPEED = {'x': 0, 'y': 0}
 
 # # play background music
 # pygame.mixer.init()
@@ -37,6 +37,7 @@ PLAYER_SPEED = 250
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # # center screen
 # os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 
 def text_format(message, textFont, textSize, textColor):
     newFont=pygame.font.SysFont(textFont, textSize)
@@ -77,33 +78,49 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         
 
         # initial velocity
-        self.vx, self.vy = 0, 0
+        # self.vx, self.vy = 0, 0
 
         key = pygame.key.get_pressed()
 
         # diagonal movement
-        if key[pygame.K_LEFT] and key[pygame.K_UP]:
-            self.vy = -PLAYER_SPEED
-            self.vx = -PLAYER_SPEED
-        elif key[pygame.K_LEFT] and key[pygame.K_DOWN]:
-            self.vy = PLAYER_SPEED
-            self.vx = -PLAYER_SPEED
-        elif key[pygame.K_RIGHT] and key[pygame.K_UP]:
-            self.vy = -PLAYER_SPEED
-            self.vx = PLAYER_SPEED
-        elif key[pygame.K_RIGHT] and key[pygame.K_DOWN]:
-            self.vy = PLAYER_SPEED
-            self.vx = PLAYER_SPEED
+        # if key[pygame.K_LEFT] and key[pygame.K_UP]:
+        #     self.vy = -PLAYER_SPEED
+        #     self.vx = -PLAYER_SPEED
+        # elif key[pygame.K_LEFT] and key[pygame.K_DOWN]:
+        #     self.vy = PLAYER_SPEED
+        #     self.vx = -PLAYER_SPEED
+        # elif key[pygame.K_RIGHT] and key[pygame.K_UP]:
+        #     self.vy = -PLAYER_SPEED
+        #     self.vx = PLAYER_SPEED
+        # elif key[pygame.K_RIGHT] and key[pygame.K_DOWN]:
+        #     self.vy = PLAYER_SPEED
+        #     self.vx = PLAYER_SPEED
 
-        # straight line movement
-        elif key[pygame.K_LEFT]:
-            self.vx = -PLAYER_SPEED
+
+       # straight line movement
+        if key[pygame.K_LEFT]:
+            self.vx -= 18
         elif key[pygame.K_RIGHT]:
-            self.vx = PLAYER_SPEED
-        elif key[pygame.K_UP]:
-            self.vy = -PLAYER_SPEED
+            self.vx += 18
+        if key[pygame.K_UP]:
+            self.vy -= 18
         elif key[pygame.K_DOWN]:
-            self.vy = PLAYER_SPEED
+            self.vy += 18
+        
+        # friction x
+        if self.vx > 12:
+            self.vx -= 12
+        elif self.vx >= -12:
+            self.vx = 0
+        else:
+            self.vx += 12
+        # friction y
+        if self.vy > 12:
+            self.vy -= 12
+        elif self.vy >= -12:
+            self.vy = 0
+        else:
+            self.vy += 12
         
         
     def move(self, dx=0, dy=0):
@@ -131,11 +148,17 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
     def update(self, x = 0, y = 0):
         """updates the player's position"""
         self.smooth_movement()
-        if not self.house_collide(x,y):
-            self.x += self.vx * self.game.dt
-            self.y += self.vy * self.game.dt
-            self.rect.x = self.x
-            self.rect.y = self.y
+
+        new_x = self.x + self.vx * self.game.dt
+        if 0 < new_x < 1008:
+            self.x = new_x
+        
+        new_y = self.y + self.vy * self.game.dt
+        if 0 < new_y < 576:
+            self.y = new_y
+        
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 # seperate classes for town hall and houses/trees bc town hall is 2x3 squares and trees/houses are 2x2 squares
 class Hall(pygame.sprite.Sprite): 
