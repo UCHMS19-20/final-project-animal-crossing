@@ -63,9 +63,19 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.x = x * TILESIZE
         self.y = y * TILESIZE
         self.vx, self.vy = 0, 0
- 
+
+    # def is_collided_with(self, sprite):
+    #     return self.rect.colliderect(sprite.rect)
+
     def smooth_movement(self):
         """allows player to move smoothly"""
+
+        # player = Player(10, 10, 'my_sprite')
+        # tree = Tree1(20, 10)
+        # if tree.is_collided_with(sprite):
+        #     print('collision!')
+        
+
         # initial velocity
         self.vx, self.vy = 0, 0
 
@@ -202,7 +212,6 @@ class Game:
         return textSurface, textSurface.get_rect()
 
 
-
     def new(self):
         """initializes all variables and places all the sprites on the grid"""
         self.all_sprites = pygame.sprite.Group()
@@ -229,8 +238,6 @@ class Game:
         key = pygame.key.get_pressed()
 
         # self.intro()
-
-        
 
         main_menu()
 
@@ -328,29 +335,29 @@ def main_menu():
  
         
         # main menu background image
-        mainmenu = pygame.image.load("src/img/mainmenu.png") 
+        mainmenu = pygame.image.load("src/img/titleimage.png") 
         screen.blit(mainmenu,(0,0))
         
 
-        title=text_format("Animal Crossing", font, 90, RED)
-        if selected=="start":
-            text_start=text_format("press S to start!", font, 60, BLACK)
-        else:
-            text_start = text_format("press S to start!", font,60, BLACK)
-        if selected=="quit":
-            text_quit=text_format("press ESC to quit ):", font, 30, WHITE)
-        else:
-            text_quit = text_format("press ESC to quit ):", font, 30, WHITE)
+        # title=text_format("Animal Crossing", font, 90, RED)
+        # if selected=="start":
+        #     text_start=text_format("press S to start!", font, 60, BLACK)
+        # else:
+        #     text_start = text_format("press S to start!", font,60, BLACK)
+        # if selected=="quit":
+        #     text_quit=text_format("press ESC to quit ):", font, 30, WHITE)
+        # else:
+        #     text_quit = text_format("press ESC to quit ):", font, 30, WHITE)
  
-        title_rect = title.get_rect()
-        start_rect = text_start.get_rect()
-        quit_rect = text_quit.get_rect()
+        # title_rect = title.get_rect()
+        # start_rect = text_start.get_rect()
+        # quit_rect = text_quit.get_rect()
  
-        # Main Menu Text
-        screen.blit(title, (WIDTH/2 - (title_rect[2]/2), 80))
-        screen.blit(text_start, (WIDTH/2 - (start_rect[2]/2), 300))
-        screen.blit(text_quit, (WIDTH/2 - (quit_rect[2]/2), 390))
-        pygame.display.update()
+        # # Main Menu Text
+        # screen.blit(title, (WIDTH/2 - (title_rect[2]/2), 80))
+        # screen.blit(text_start, (WIDTH/2 - (start_rect[2]/2), 300))
+        # screen.blit(text_quit, (WIDTH/2 - (quit_rect[2]/2), 390))
+        # pygame.display.update()
         
         pygame.display.set_caption("main menu")
         pygame.display.flip()
@@ -368,10 +375,6 @@ def name():
     name = ""
     font = pygame.font.Font(None, 50)
 
-    instructions = text_format("yes", font, 90, RED)
-    instructions_rect = instructions.get_rect()
-    screen.blit(title, (WIDTH/2 - (instructions_rect[2]/2), 80))
-
     while True:
         for evt in pygame.event.get():
             if evt.type == KEYDOWN:
@@ -379,36 +382,23 @@ def name():
                     name += evt.unicode
                 elif evt.key == K_BACKSPACE:
                     name = name[:-1]
-                elif evt.key == K_RETURN:
-                    name = ""
+
             elif evt.type == QUIT:
                 return
-
-        title=text_format("Animal Crossing", font, 90, RED)
-        if selected=="start":
-            text_start=text_format("press S to start!", font, 60, BLACK)
-        else:
-            text_start = text_format("press S to start!", font,60, BLACK)
-        if selected=="quit":
-            text_quit=text_format("press ESC to quit ):", font, 30, WHITE)
-        else:
-            text_quit = text_format("press ESC to quit ):", font, 30, WHITE)
- 
-        title_rect = title.get_rect()
-        start_rect = text_start.get_rect()
-        quit_rect = text_quit.get_rect()
- 
-        # Main Menu Text
-        screen.blit(title, (WIDTH/2 - (title_rect[2]/2), 80))
-        screen.blit(text_start, (WIDTH/2 - (start_rect[2]/2), 300))
-        screen.blit(text_quit, (WIDTH/2 - (quit_rect[2]/2), 390))
-        pygame.display.update()
+        
+        mainmenu = pygame.image.load("src/img/mainmenu.png") 
+        screen.blit(mainmenu,(0,0))
 
         block = font.render(name, True, (255, 255, 255))
         rect = block.get_rect()
         rect.center = screen.get_rect().center
         screen.blit(block, rect)
         pygame.display.flip()
+
+        key = pygame.key.get_pressed()
+
+        if key[pygame.K_RETURN]:
+            break
 
 
 
