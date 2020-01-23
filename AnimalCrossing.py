@@ -221,10 +221,11 @@ class Game:
 
         name() 
 
-        dialogue()
-
+        
         while self.playing == True:
             self.dt = self.clock.tick(FPS) / 1000
+            dialogue()
+
             self.events()
             self.update()
             self.draw()
@@ -352,30 +353,18 @@ def name():
         if key[pygame.K_RETURN]:
             break
 
-def dialogue():
-        """uhh"""
-        # key = pygame.key.get_pressed()
-
-        # if key[pygame.K_SPACE]:
-        while True:
-            display_surface = pygame.display.set_mode((1056, 624 )) 
-            image = pygame.image.load('src/img/grass.png') 
-            display_surface.blit(image, (0, 0)) 
-            pygame.display.update()  
-            pygame.display.flip()
-
 
 def dialogue():
         """uhh"""
-        # key = pygame.key.get_pressed()
+        key = pygame.key.get_pressed()
 
-        # if key[pygame.K_SPACE]:
-        while True:
-            display_surface = pygame.display.set_mode((1056, 624 )) 
-            image = pygame.image.load('src/img/grass.png') 
-            display_surface.blit(image, (0, 0)) 
-            pygame.display.update()  
-            pygame.display.flip()
+        if key[pygame.K_SPACE]:
+            while True:
+                display_surface = pygame.display.set_mode((1056, 624 )) 
+                image = pygame.image.load('src/img/grass.png') 
+                display_surface.blit(image, (0, 0)) 
+                pygame.display.update()  
+                pygame.display.flip()
 
 
 
