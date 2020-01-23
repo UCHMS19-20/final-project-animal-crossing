@@ -345,6 +345,7 @@ def name():
         rect = block.get_rect()
         rect.center = screen.get_rect().center
         screen.blit(block, rect)
+        
         pygame.display.flip()
 
         key = pygame.key.get_pressed()
@@ -355,15 +356,18 @@ def name():
 
 def dialogue():
         """uhh"""
-        # key = pygame.key.get_pressed()
+        key = pygame.key.get_pressed()
 
         # if key[pygame.K_SPACE]:
         while True:
-            display_surface = pygame.display.set_mode((1056, 624 )) 
-            image = pygame.image.load('src/img/grass.png') 
-            display_surface.blit(image, (0, 0)) 
-            pygame.display.update()  
-            pygame.display.flip()
+            if key[pygame.K_SPACE]: 
+                display_surface = pygame.display.set_mode((1056, 624 )) 
+                image = pygame.image.load('src/img/grass.png') 
+                display_surface.blit(image, (0, 0)) 
+                pygame.display.set_caption("dialogue")  
+                pygame.display.flip()
+         
+
 
 
 
