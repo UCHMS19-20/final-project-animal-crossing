@@ -261,7 +261,7 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
 
-    def intro(self):
+    def dialogue(self):
         """uhh"""
         key = pygame.key.get_pressed()
 
