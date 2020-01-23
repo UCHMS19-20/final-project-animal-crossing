@@ -358,12 +358,19 @@ def dialogue():
         """uhh"""
         key = pygame.key.get_pressed()
 
+        selected="start"
+
+        dialogue = True
         # if key[pygame.K_SPACE]:
-        while True:
+        while dialogue:
+            for event in pygame.event.get():
+                if event.type==pygame.KEYDOWN:
+                    if event.key==pygame.K_UP:
+                        selected="start"
+                        
             if key[pygame.K_SPACE]: 
-                display_surface = pygame.display.set_mode((1056, 624 )) 
                 image = pygame.image.load('src/img/grass.png') 
-                display_surface.blit(image, (0, 0)) 
+                screen.blit(image, (0, 0)) 
                 pygame.display.set_caption("dialogue")  
                 pygame.display.flip()
          
