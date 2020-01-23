@@ -363,11 +363,7 @@ def dialogue():
         dialogue = True
         # if key[pygame.K_SPACE]:
         while dialogue:
-            for event in pygame.event.get():
-                if event.type==pygame.KEYDOWN:
-                    if event.key==pygame.K_UP:
-                        selected="start"
-                        
+            
             if key[pygame.K_SPACE]: 
                 image = pygame.image.load('src/img/grass.png') 
                 screen.blit(image, (0, 0)) 
