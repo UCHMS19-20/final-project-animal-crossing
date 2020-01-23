@@ -71,7 +71,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
 
         key = pygame.key.get_pressed()
 
-       # key presses
+       
         if key[pygame.K_LEFT]:
             self.vx -= 18
         elif key[pygame.K_RIGHT]:
@@ -80,6 +80,22 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
             self.vy -= 18
         elif key[pygame.K_DOWN]:
             self.vy += 18
+
+        # friction x
+        if self.vx > 12:
+            self.vx -= 12
+        elif self.vx >= -12:
+            self.vx = 0
+        else:
+            self.vx += 12
+        # friction y
+        if self.vy > 12:
+            self.vy -= 12
+        elif self.vy >= -12:
+            self.vy = 0
+        else:
+            self.vy += 12
+
         
         # friction x
         if self.vx > 12:
@@ -96,7 +112,6 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         else:
             self.vy += 12
         
-    
 
     def update(self, x = 0, y = 0):
         """updates the player's position"""
@@ -337,6 +352,7 @@ def name():
         if key[pygame.K_RETURN]:
             break
 
+
 def dialogue():
         """uhh"""
         # key = pygame.key.get_pressed()
@@ -348,6 +364,7 @@ def dialogue():
             display_surface.blit(image, (0, 0)) 
             pygame.display.update()  
             pygame.display.flip()
+
 
 
 # create the game object
