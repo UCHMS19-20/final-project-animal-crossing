@@ -206,6 +206,8 @@ class Game:
 
         name() 
 
+        dialogue()
+
         while self.playing == True:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
@@ -233,8 +235,6 @@ class Game:
     def draw(self):
         """draw everything on the screen"""
 
-        
-
         # draw the grid 
         self.draw_grid()
 
@@ -242,9 +242,7 @@ class Game:
         self.screenimage = pygame.image.load("src/img/grass2.png")
         self.rect = self.screenimage.get_rect()
         screen.blit(self.screenimage, self.rect)
-        
-
-        self.draw_grid()
+    
 
 
         # draw sprites
@@ -261,19 +259,8 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
 
-    def dialogue(self):
-        """uhh"""
-        key = pygame.key.get_pressed()
+    
 
-        Isabelle(self, 10, 10)
-        
-        key = pygame.key.get_pressed()
-        if key[pygame.K_BACKSPACE]:
-            
-            self.screenimage = pygame.image.load("src/img/tree1.png")
-            self.rect = self.screenimage.get_rect()
-            screen.blit(self.screenimage, self.rect)
-            pygame.display.flip()
 
     def show_start_screen(self):
         pass
@@ -349,6 +336,18 @@ def name():
 
         if key[pygame.K_RETURN]:
             break
+
+def dialogue():
+        """uhh"""
+        # key = pygame.key.get_pressed()
+
+        # if key[pygame.K_SPACE]:
+        while True:
+            display_surface = pygame.display.set_mode((1056, 624 )) 
+            image = pygame.image.load('src/img/grass.png') 
+            display_surface.blit(image, (0, 0)) 
+            pygame.display.update()  
+            pygame.display.flip()
 
 
 # create the game object
