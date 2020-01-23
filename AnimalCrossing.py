@@ -1,8 +1,13 @@
 import pygame 
 import sys
 import random
+import os
 from pygame.locals import *
 
+#center screen 
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+
+#initialize pygame
 pygame.init()
 
 # predefining some colors
@@ -26,7 +31,7 @@ GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
 #player settings
-PLAYER_SPEED = 100
+PLAYER_SPEED = {'x': 0, 'y': 0}
 
 # # play background music
 # pygame.mixer.init()
@@ -38,17 +43,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # # center screen
 # os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-def text_format(message, textFont, textSize, textColor):
-    newFont=pygame.font.SysFont(textFont, textSize)
-    newText=newFont.render(message, 0, textColor)
- 
-    return newText
- 
-
-font = "comicsansms"
 
 clock = pygame.time.Clock()
-FPS=30
+FPS = 30
 
 class Player(pygame.sprite.Sprite): # player that can be moved by keys
     """Player class"""
@@ -57,98 +54,64 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.groups = game.all_sprites
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+
         self.image = pygame.image.load("src/img/villager.png")
         self.rect = self.image.get_rect()
         screen.blit(self.image, self.rect)
+
         self.x = x * TILESIZE
         self.y = y * TILESIZE
+
         self.vx, self.vy = 0, 0
 
-    # def is_collided_with(self, sprite):
-    #     return self.rect.colliderect(sprite.rect)
+        self.rect = pygame.Rect(48, 48, 48, 48)
 
     def smooth_movement(self):
         """allows player to move smoothly"""
 
-        # player = Player(10, 10, 'my_sprite')
-        # tree = Tree1(20, 10)
-        # if tree.is_collided_with(sprite):
-        #     print('collision!')
-        
-
-        # initial velocity
-        self.vx, self.vy = 0, 0
-
         key = pygame.key.get_pressed()
 
-        # diagonal movement
-        if key[pygame.K_LEFT] and key[pygame.K_UP]:
-            self.vy = -PLAYER_SPEED
-            self.vx = -PLAYER_SPEED
-        elif key[pygame.K_LEFT] and key[pygame.K_DOWN]:
-            self.vy = PLAYER_SPEED
-            self.vx = -PLAYER_SPEED
-        elif key[pygame.K_RIGHT] and key[pygame.K_UP]:
-            self.vy = -PLAYER_SPEED
-            self.vx = PLAYER_SPEED
-        elif key[pygame.K_RIGHT] and key[pygame.K_DOWN]:
-            self.vy = PLAYER_SPEED
-            self.vx = PLAYER_SPEED
-
-        # straight line movement
-        elif key[pygame.K_LEFT]:
-            self.vx = -PLAYER_SPEED
+       # key presses
+        if key[pygame.K_LEFT]:
+            self.vx -= 18
         elif key[pygame.K_RIGHT]:
-            self.vx = PLAYER_SPEED
-        elif key[pygame.K_UP]:
-            self.vy = -PLAYER_SPEED
+            self.vx += 18
+        if key[pygame.K_UP]:
+            self.vy -= 18
         elif key[pygame.K_DOWN]:
-            self.vy = PLAYER_SPEED
+            self.vy += 18
         
+        # friction x
+        if self.vx > 12:
+            self.vx -= 12
+        elif self.vx >= -12:
+            self.vx = 0
+        else:
+            self.vx += 12
+        # friction y
+        if self.vy > 12:
+            self.vy -= 12
+        elif self.vy >= -12:
+            self.vy = 0
+        else:
+            self.vy += 12
         
-    def move(self, dx=0, dy=0):
-        """ moves the player"""
-        if not self.house_collide(dx,dy) and not self.screen_bounds(dx,dy):
-            self.x += dx
-            self.y += dy
-
-    # def screen_bounds(self, dx = 0, dy = 0):
-    #     """makes it so the player cannot move past the width and height constraints of the screen"""
-    #     screen_there_x = False
-    #     screen_there_y = False
-    #     for wall in self.game.walls:
-    #         if GRIDWIDTH + 1 == self.x + dx:
-    #              screen_there_x = True
-    #         if GRIDHEIGHT + 1 == self.y + dy:
-    #              screen_there_y = True
-    #         while screen_there_x and screen_there_y == True:
-    #             return True
-    #     return False
-
-    def house_collide(self, dx = 0, dy = 0):
-        """makes the wall solid and doesnt let player pass through"""
-        wall_there_x = False
-        wall_there_y = False
-        for wall in self.game.walls:
-            for n in (0, 2, 1): 
-                if wall.x + n == self.x + dx:
-                    wall_there_x = True
-            for m in (0, 3, 1):
-                if wall.y + m  == self.y + dy:
-                    wall_there_y = True
-            while wall_there_x and wall_there_y == True:
-                return True
-        return False
-
+    
 
     def update(self, x = 0, y = 0):
         """updates the player's position"""
         self.smooth_movement()
-        if not self.house_collide(x,y):
-            self.x += self.vx * self.game.dt
-            self.y += self.vy * self.game.dt
-            self.rect.x = self.x
-            self.rect.y = self.y
+
+        new_x = self.x + self.vx * self.game.dt
+        if 0 < new_x < 1008:
+            self.x = new_x
+        
+        new_y = self.y + self.vy * self.game.dt
+        if 0 < new_y < 576:
+            self.y = new_y
+        
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 # seperate classes for town hall and houses/trees bc town hall is 2x3 squares and trees/houses are 2x2 squares
 class Hall(pygame.sprite.Sprite): 
@@ -196,7 +159,7 @@ class Game:
     """Game class"""
     def __init__(self):
         """creates screen"""
-        pygame.init()
+        
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
@@ -225,7 +188,7 @@ class Game:
 
         #tree 1 position
         Tree1(self, 8, 7)
-        Tree1(self, 4, 5)
+        Tree1(self, 18, 5)
         Tree1(self, 1, 9)
         Tree1(self, 12, 5)
         Tree1(self, 20, 2)
@@ -269,6 +232,9 @@ class Game:
 
     def draw(self):
         """draw everything on the screen"""
+
+        
+
         # draw the grid 
         self.draw_grid()
 
@@ -277,6 +243,10 @@ class Game:
         self.rect = self.screenimage.get_rect()
         screen.blit(self.screenimage, self.rect)
         
+
+        self.draw_grid()
+
+
         # draw sprites
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
@@ -313,8 +283,8 @@ class Game:
 
 def main_menu():
      
-    menu=True
-    selected="start"
+    menu = True
+    selected = "start"
  
     while menu:
         for event in pygame.event.get():
@@ -338,27 +308,6 @@ def main_menu():
         mainmenu = pygame.image.load("src/img/titleimage.png") 
         screen.blit(mainmenu,(0,0))
         
-
-        # title=text_format("Animal Crossing", font, 90, RED)
-        # if selected=="start":
-        #     text_start=text_format("press S to start!", font, 60, BLACK)
-        # else:
-        #     text_start = text_format("press S to start!", font,60, BLACK)
-        # if selected=="quit":
-        #     text_quit=text_format("press ESC to quit ):", font, 30, WHITE)
-        # else:
-        #     text_quit = text_format("press ESC to quit ):", font, 30, WHITE)
- 
-        # title_rect = title.get_rect()
-        # start_rect = text_start.get_rect()
-        # quit_rect = text_quit.get_rect()
- 
-        # # Main Menu Text
-        # screen.blit(title, (WIDTH/2 - (title_rect[2]/2), 80))
-        # screen.blit(text_start, (WIDTH/2 - (start_rect[2]/2), 300))
-        # screen.blit(text_quit, (WIDTH/2 - (quit_rect[2]/2), 390))
-        # pygame.display.update()
-        
         pygame.display.set_caption("main menu")
         pygame.display.flip()
 
@@ -373,7 +322,8 @@ def main_menu():
 
 def name():
     name = ""
-    font = pygame.font.Font(None, 50)
+    font_name = 'src/humming_otf.otf'
+    font = pygame.font.Font(font_name, 50)
 
     while True:
         for evt in pygame.event.get():
@@ -386,10 +336,10 @@ def name():
             elif evt.type == QUIT:
                 return
         
-        mainmenu = pygame.image.load("src/img/mainmenu.png") 
+        mainmenu = pygame.image.load("src/img/nameentry.png") 
         screen.blit(mainmenu,(0,0))
 
-        block = font.render(name, True, (255, 255, 255))
+        block = font.render(name, True, (254, 192, 30))
         rect = block.get_rect()
         rect.center = screen.get_rect().center
         screen.blit(block, rect)
@@ -401,17 +351,10 @@ def name():
             break
 
 
-
-
-        
-
-
 # create the game object
 g = Game() # abbreviation for game class
 
 g.show_start_screen()
-
-
 
 while True: 
     g.new()
