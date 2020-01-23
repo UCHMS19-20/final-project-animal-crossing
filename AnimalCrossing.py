@@ -40,8 +40,7 @@ PLAYER_SPEED = {'x': 0, 'y': 0}
 
 # display screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-# # center screen
-# os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 
 
 clock = pygame.time.Clock()
@@ -97,20 +96,6 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
             self.vy += 12
 
         
-        # friction x
-        if self.vx > 12:
-            self.vx -= 12
-        elif self.vx >= -12:
-            self.vx = 0
-        else:
-            self.vx += 12
-        # friction y
-        if self.vy > 12:
-            self.vy -= 12
-        elif self.vy >= -12:
-            self.vy = 0
-        else:
-            self.vy += 12
         
 
     def update(self, x = 0, y = 0):
@@ -221,7 +206,7 @@ class Game:
 
         name() 
 
-        dialogue()
+        # dialogue()
 
         while self.playing == True:
             self.dt = self.clock.tick(FPS) / 1000
@@ -354,21 +339,21 @@ def name():
             break
 
 
-def dialogue():
-        """uhh"""
-        key = pygame.key.get_pressed()
+# def dialogue():
+#         """uhh"""
+#         key = pygame.key.get_pressed()
 
-        selected="start"
+#         selected="start"
 
-        dialogue = True
-        # if key[pygame.K_SPACE]:
-        while dialogue:
+#         dialogue = True
+#         # if key[pygame.K_SPACE]:
+#         while dialogue:
             
-            if key[pygame.K_SPACE]: 
-                image = pygame.image.load('src/img/grass.png') 
-                screen.blit(image, (0, 0)) 
-                pygame.display.set_caption("dialogue")  
-                pygame.display.flip()
+#             if key[pygame.K_SPACE]: 
+#                 image = pygame.image.load('src/img/grass.png') 
+#                 screen.blit(image, (0, 0)) 
+#                 pygame.display.set_caption("dialogue")  
+#                 pygame.display.flip()
          
 
 
