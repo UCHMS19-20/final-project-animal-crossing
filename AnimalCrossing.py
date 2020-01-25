@@ -40,6 +40,8 @@ ISABELLE_IMG = "src/img/tree1.png"
 # COOKIE_IMG =
 # GRIZZLY_IMG = 
 
+key = pygame.key.get_pressed()
+
 # # play background music
 # pygame.mixer.init()
 # pygame.mixer.music.load("src/3pm.mp3")
@@ -126,6 +128,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.rect.y = self.y
         self.collide_with_walls('y')
 
+
     def collide_with_walls(self, dir):
         if dir == 'x':
             hits = pygame.sprite.spritecollide(self, self.game.walls, False)
@@ -151,7 +154,7 @@ class Isabelle(pygame.sprite.Sprite):
     """Isabelle class"""
     def __init__(self, game, x, y):
         """makes the town hall that shows up on the screen"""
-        self.groups = game.all_sprites, game.animals
+        self.groups = game.all_sprites, game.walls
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pygame.image.load("src/img/tree1.png")
@@ -249,13 +252,14 @@ class Game:
         name() 
 
         
+        
         while self.playing == True:
             self.dt = self.clock.tick(FPS) / 1000
-            dialogue()
-
             self.events()
             self.update()
             self.draw()
+
+            
         
        
     def quit(self):
@@ -266,6 +270,7 @@ class Game:
     def update(self):
         """update portion of the game loop"""
         self.all_sprites.update()
+        
 
     def draw_grid(self):
         """draw the grid"""
@@ -291,6 +296,11 @@ class Game:
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
 
+        
+
+
+    
+
 
     def events(self):
         """catch all events here"""
@@ -300,6 +310,7 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.quit()
+        
 
     
 
@@ -381,7 +392,10 @@ def name():
 
 
 def dialogue():
-        """uhh"""
+    """text box"""
+
+    pygame.init()
+
     speak = True
     selected = "yes"
  
@@ -389,52 +403,27 @@ def dialogue():
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 pygame.quit()
-                quit()
             if event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_UP:
                     selected="yes"
-                elif event.key==pygame.K_DOWN:
-                    selected="quit"
                 if event.key==pygame.K_RETURN:
                     if selected=="yes":
                         print("Start")
-                    if selected=="quit":
-                        pygame.quit()
-                        quit()
- 
-        
-        # main menu background image
-        mainmenu = pygame.image.load("src/img/box.png") 
-        screen.blit(mainmenu,(0,0))
-        
-        pygame.display.set_caption("box")
-        pygame.display.flip()
-
+                    
         key = pygame.key.get_pressed()
+
+        if key[pygame.K_SPACE]: 
+        # main menu background image
+            mainmenu = pygame.image.load("src/img/box.png") 
+            screen.blit(mainmenu,(0,0))
         
-        if key[pygame.K_s]:
+            pygame.display.set_caption("box")
+            pygame.display.flip()
+
+        if key[pygame.K_RETURN]:
             break
-        elif key[pygame.K_ESCAPE]:
-            pygame.quit()
-            sys.exit()
-        # key = pygame.key.get_pressed()
 
-        # if key[pygame.K_SPACE]:
-
-        #     while True:
-        #         for event in pygame.event.get():
-        #             if event.type==pygame.KEYDOWN:
-        #                 if event.key==pygame.K_UP:
-        #                     selected="start"
-        #         mainmenu = pygame.image.load("src/img/box.png") 
-        #         screen.blit(mainmenu,(100,100))
         
-        #         pygame.display.set_caption("box")
-        #         pygame.display.flip()
-                
-        #         if key[pygame.K_RETURN]:
-        #             break        
-
 
 
 # create the game object
@@ -447,3 +436,4 @@ while True:
     g.run()
     g.intro()
     g.show_go_screen()
+    
