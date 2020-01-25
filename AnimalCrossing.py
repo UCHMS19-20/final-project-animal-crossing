@@ -162,7 +162,7 @@ class Isabelle(pygame.sprite.Sprite):
 
         self.x = x
         self.y = y
-        
+
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
@@ -382,15 +382,58 @@ def name():
 
 def dialogue():
         """uhh"""
-        key = pygame.key.get_pressed()
+    speak = True
+    selected = "yes"
+ 
+    while speak:
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_UP:
+                    selected="yes"
+                elif event.key==pygame.K_DOWN:
+                    selected="quit"
+                if event.key==pygame.K_RETURN:
+                    if selected=="yes":
+                        print("Start")
+                    if selected=="quit":
+                        pygame.quit()
+                        quit()
+ 
+        
+        # main menu background image
+        mainmenu = pygame.image.load("src/img/box.png") 
+        screen.blit(mainmenu,(0,0))
+        
+        pygame.display.set_caption("box")
+        pygame.display.flip()
 
-        if key[pygame.K_SPACE]:
-            while True:
-                display_surface = pygame.display.set_mode((1056, 624 )) 
-                image = pygame.image.load('src/img/grass.png') 
-                display_surface.blit(image, (0, 0)) 
-                pygame.display.update()  
-                pygame.display.flip()
+        key = pygame.key.get_pressed()
+        
+        if key[pygame.K_s]:
+            break
+        elif key[pygame.K_ESCAPE]:
+            pygame.quit()
+            sys.exit()
+        # key = pygame.key.get_pressed()
+
+        # if key[pygame.K_SPACE]:
+
+        #     while True:
+        #         for event in pygame.event.get():
+        #             if event.type==pygame.KEYDOWN:
+        #                 if event.key==pygame.K_UP:
+        #                     selected="start"
+        #         mainmenu = pygame.image.load("src/img/box.png") 
+        #         screen.blit(mainmenu,(100,100))
+        
+        #         pygame.display.set_caption("box")
+        #         pygame.display.flip()
+                
+        #         if key[pygame.K_RETURN]:
+        #             break        
 
 
 
