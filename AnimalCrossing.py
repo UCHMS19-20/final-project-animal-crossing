@@ -150,14 +150,67 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
                 self.rect.y = self.y
 
 
-class Isabelle(pygame.sprite.Sprite): 
-    """Isabelle class"""
+class Apple(pygame.sprite.Sprite): 
     def __init__(self, game, x, y):
-        """makes the town hall that shows up on the screen"""
+        """fruit"""
         self.groups = game.all_sprites, game.walls
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pygame.image.load("src/img/tree1.png")
+        self.image = pygame.image.load("src/img/apple.png")
+        self.rect = self.image.get_rect()
+
+        self.hit_rect = pygame.Rect(0, 0, 48, 48)
+        self.hit_rect.center = self.rect.center
+
+        self.x = x
+        self.y = y
+
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
+class Orange(pygame.sprite.Sprite): 
+    def __init__(self, game, x, y):
+        """fruit"""
+        self.groups = game.all_sprites, game.walls
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.image.load("src/img/orange.png")
+        self.rect = self.image.get_rect()
+
+        self.hit_rect = pygame.Rect(0, 0, 48, 48)
+        self.hit_rect.center = self.rect.center
+
+        self.x = x
+        self.y = y
+
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
+class Peach(pygame.sprite.Sprite): 
+    def __init__(self, game, x, y):
+        """fruit"""
+        self.groups = game.all_sprites, game.walls
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.image.load("src/img/peach.png")
+        self.rect = self.image.get_rect()
+
+        self.hit_rect = pygame.Rect(0, 0, 48, 48)
+        self.hit_rect.center = self.rect.center
+
+        self.x = x
+        self.y = y
+
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
+class Pear(pygame.sprite.Sprite): 
+    def __init__(self, game, x, y):
+        """fruit"""
+        self.groups = game.all_sprites, game.walls
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.image.load("src/img/pear.png")
         self.rect = self.image.get_rect()
 
         self.hit_rect = pygame.Rect(0, 0, 48, 48)
@@ -224,21 +277,31 @@ class Game:
         self.Isabelle = pygame.sprite.Group()
 
         #player position
-        self.player = Player(self, 10, 10)
+        self.player = Player(self, 21, 6)
 
         #town hall position
         Hall(self, 5, 3)
 
-        Isabelle(self, 6, 4)
+        
 
-        #tree 1 position
-        Tree1(self, 8, 7)
-        Tree1(self, 18, 5)
-        Tree1(self, 1, 9)
-        Tree1(self, 12, 5)
-        Tree1(self, 20, 2)
+        #tree  positions
+        Tree1(self, 10, 2)
+        Tree1(self, 2, 11)
+        Tree1(self, 15, 10)
+        Tree1(self, 20, 8)
+        Tree1(self, 6, 9)
+        Tree1(self, 16, 2)
+        Tree1(self, 9, 4)
+        Tree1(self, 2, 3)
+        Tree1(self, 4, 7)
+        Tree1(self, 19, 1)
+        Tree1(self, 13, 6)
 
-        # Isabelle(self, 10, 10)
+        # fruit positions
+        Apple(self, 9, 10 )
+        Orange(self, 17, 4)
+        Peach(self, 2, 2)
+        Pear(self, 19, 11)
 
     def run(self):
         """game loop"""
@@ -290,7 +353,7 @@ class Game:
         self.rect = self.screenimage.get_rect()
         screen.blit(self.screenimage, self.rect)
     
-
+        
 
         # draw sprites
         self.all_sprites.draw(self.screen)
