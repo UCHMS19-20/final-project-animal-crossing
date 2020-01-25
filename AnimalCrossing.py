@@ -33,6 +33,13 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 #player settings
 PLAYER_SPEED = {'x': 0, 'y': 0}
 
+# animal images
+ISABELLE_IMG = "src/img/tree1.png"
+# BOB_IMG =
+# LILY_IMG = 
+# COOKIE_IMG =
+# GRIZZLY_IMG = 
+
 # # play background music
 # pygame.mixer.init()
 # pygame.mixer.music.load("src/3pm.mp3")
@@ -126,7 +133,44 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
             self.y = new_y
         
         self.rect.x = self.x
+        self.collide_with_walls('x')
         self.rect.y = self.y
+        self.collide_with_walls('y')
+
+    def collide_with_walls(self, dir):
+        if dir == 'x':
+            hits = pygame.sprite.spritecollide(self, self.game.walls, False)
+            if hits:
+                if self.vx > 0:
+                    self.x = hits[0].rect.left - self.rect.width
+                if self.vx < 0:
+                    self.x = hits[0].rect.right
+                self.vx = 0
+                self.rect.x = self.x
+        if dir == 'y':
+            hits = pygame.sprite.spritecollide(self, self.game.walls, False)
+            if hits:
+                if self.vy > 0:
+                    self.y = hits[0].rect.top - self.rect.height
+                if self.vy < 0:
+                    self.y = hits[0].rect.bottom
+                self.vy = 0
+                self.rect.y = self.y
+
+
+class Isabelle(pygame.sprite.Sprite): 
+    """Isabelle class"""
+    def __init__(self, game, x, y):
+        """makes the town hall that shows up on the screen"""
+        self.groups = game.all_sprites
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.image.load("src/img/tree1.png")
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
 # seperate classes for town hall and houses/trees bc town hall is 2x3 squares and trees/houses are 2x2 squares
 class Hall(pygame.sprite.Sprite): 
@@ -157,18 +201,6 @@ class Tree1(pygame.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
-class Isabelle(pygame.sprite.Sprite):
-    def __init__(self, game, x, y):
-        """makes isabelle (NPC)"""
-        self.groups = game.all_sprites, game.walls
-        pygame.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = pygame.image.load("src/img/tree1.png")
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
 
 class Game:
     """Game class"""
@@ -191,12 +223,15 @@ class Game:
         """initializes all variables and places all the sprites on the grid"""
         self.all_sprites = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
+        self.Isabelle = pygame.sprite.Group()
 
         #player position
         self.player = Player(self, 10, 10)
 
         #town hall position
         Hall(self, 5, 3)
+
+        Isabelle(self, 6, 4)
 
         #tree 1 position
         Tree1(self, 8, 7)
