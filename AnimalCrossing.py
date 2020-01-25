@@ -185,9 +185,6 @@ class Game:
         """loads data"""
         pass
 
-    def text_objects(text, font):
-        textSurface = font.render(text, True, black)
-        return textSurface, textSurface.get_rect()
 
 
     def new(self):
@@ -231,7 +228,6 @@ class Game:
             self.draw()
         
        
-
     def quit(self):
         """quit the game"""
         pygame.quit()
