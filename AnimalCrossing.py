@@ -394,6 +394,18 @@ class Game():
         for y in range(0, HEIGHT, TILESIZE):
             pygame.draw.line(self.screen, GREEN, (0, y), (WIDTH, y))
 
+    def Isabelle_talk(self):
+        events = pygame.event.get()
+        while True:
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_i:
+                        box = pygame.image.load("src/img/box.png") 
+                        screen.blit(box,(6,1))
+                        pygame.display.flip()
+            if event.key == pygame.K_BACKSPACE:
+                break
+
     def draw(self):
         """draw everything on the screen"""
 
@@ -412,19 +424,9 @@ class Game():
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
 
-        
-        Isabelle_talk()
+        self.Isabelle_talk()
                     
-    def Isabelle_talk():
-        events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_i:
-                    box = pygame.image.load("src/img/box.png") 
-                    screen.blit(box,(6,1))
-                    pygame.display.flip()
-                if event.key == pygame.K_BACKSPACE:
-                    break
+    
 
     
 
