@@ -51,6 +51,7 @@ font_name = 'src/humming_otf.otf'
 clock = pygame.time.Clock()
 FPS = 30
 
+
 class Player(pygame.sprite.Sprite): # player that can be moved by keys
     """Player class"""
     def __init__(self, game, x, y): 
@@ -74,6 +75,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.vx, self.vy = 0, 0
 
         self.hitbox = (self.x, self.y, 48, 48)
+
 
     def smooth_movement(self):
         """allows player to move smoothly"""
@@ -395,6 +397,7 @@ class Game():
     def draw(self):
         """draw everything on the screen"""
 
+
         # draw the grid 
         self.draw_grid()
 
@@ -409,15 +412,19 @@ class Game():
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
 
-        self.all_sprites = pygame.sprite.Group()
         
+        Isabelle_talk()
+                    
+    def Isabelle_talk():
         events = pygame.event.get()
         for event in events:
-            if 240 < self.x < 384 and 240 < self.y < 336:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        print("bruh")
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_i:
+                    box = pygame.image.load("src/img/box.png") 
+                    screen.blit(box,(6,1))
+                    pygame.display.flip()
+                if event.key == pygame.K_BACKSPACE:
+                    break
 
     
 
@@ -522,9 +529,9 @@ def instructions():
         key = pygame.key.get_pressed()
 
 
-        # main menu background image
-        mainmenu = pygame.image.load("src/img/box.png") 
-        screen.blit(mainmenu,(6,1))
+        # dialogue box
+        box = pygame.image.load("src/img/box.png") 
+        screen.blit(box,(6,1))
         
         pygame.display.set_caption("instructions")
         
