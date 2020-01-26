@@ -80,8 +80,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
 
         key = pygame.key.get_pressed()
 
-        self.hitbox = (self.x, self.y, 48, 48)
-        pygame.draw.rect(screen, WHITE, self.hitbox)
+
        
         if key[pygame.K_LEFT]:
             self.vx -= 18
@@ -127,8 +126,7 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.rect.y = self.y
         self.collide_with_walls('y')
 
-        self.hitbox = (self.x, self.y, 48, 48)
-        pygame.draw.rect(screen, WHITE, self.hitbox)
+        
 
 
     def collide_with_walls(self, dir):
@@ -150,6 +148,37 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
                     self.y = hits[0].rect.bottom
                 self.vy = 0
                 self.rect.y = self.y
+    
+    def action(self):
+        speak = True
+        selected = "yes"
+ 
+        while speak:
+            for event in pygame.event.get():
+                if event.type==pygame.QUIT:
+                    pygame.quit()
+                if event.type==pygame.KEYDOWN:
+                    if event.key==pygame.K_UP:
+                        selected="yes"
+                    if event.key==pygame.K_RETURN:
+                        if selected=="yes":
+                            print("Start")
+
+        if 288 < self.x < 336 and 240 < self.y < 288:
+            if key[pygame.K_SPACE]:
+                mainmenu = pygame.image.load("src/img/grass.png") 
+                screen.blit(mainmenu,(6,1))
+
+                pygame.display.set_caption("action")
+
+                block = font.render("Your first task: Find and talk to Mrs. Gerstein!", True, WHITE)
+                screen.blit(block, (150,290))
+                
+                pygame.display.flip()
+
+                print("bruh")
+        
+
 
 
 class Apple(pygame.sprite.Sprite): 
@@ -267,7 +296,7 @@ class Isabelle(pygame.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
-class Game:
+class Game():
     """Game class"""
     def __init__(self):
         """creates screen"""
@@ -288,11 +317,9 @@ class Game:
         """initializes all variables and places all the sprites on the grid"""
         self.all_sprites = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
-        self.animals = pygame.sprite.Group()
         self.Isabelle = pygame.sprite.Group()
 
-        #player position
-        self.player = Player(self, 21, 6)
+        
 
         #town hall position
         Hall(self, 5, 3)
@@ -321,27 +348,32 @@ class Game:
         Peach(self, 2, 2)
         Pear(self, 17, 10)
 
+        #player position
+        self.player = Player(self, 21, 6)
+
     def run(self):
         """game loop"""
         self.playing = True
-        key = pygame.key.get_pressed()
 
-        # self.intro()
+
 
         main_menu()
 
         name() 
 
         instructions()
+
         
         while self.playing == True:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
             self.draw()
-            # dialogue()
-
             
+            
+            
+
+    
         
        
     def quit(self):
@@ -353,7 +385,6 @@ class Game:
         """update portion of the game loop"""
         self.all_sprites.update()
         
-
     def draw_grid(self):
         """draw the grid"""
         for x in range(0, WIDTH, TILESIZE):
@@ -375,15 +406,18 @@ class Game:
         self.draw_grid() 
 
         # draw sprites
-    
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
 
-        
+        events = pygame.event.get()
+        for event in events:
+            if 240 < self.x < 384 and 240 < self.y < 336:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        print("bruh")
 
 
     
-
 
     def events(self):
         """catch all events here"""
@@ -395,14 +429,7 @@ class Game:
                     self.quit()
         
 
-    
-
-
-    def show_start_screen(self):
-        pass
-
-    def show_go_screen(self):
-        pass
+ 
 
 def main_menu():
      
@@ -557,17 +584,17 @@ def dialogue():
         if key[pygame.K_RETURN]:
             break
 
-        
+
 
 
 # create the game object
 g = Game() # abbreviation for game class
 
-g.show_start_screen()
+
 
 while True: 
     g.new()
     g.run()
     g.intro()
-    g.show_go_screen()
+   
     
