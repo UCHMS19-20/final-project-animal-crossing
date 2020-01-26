@@ -1,50 +1,25 @@
-# Intro to Programming Final Project - Fall 2019
+# **Olivia Qiu's Final Tech Project** - Animal Crossing: Magnet Edition
 
-Please note that this website and the repository associated with it are the official source of info for the project. I will post all updates here. Please note that my updates will not be reflected in your repository, only in mine. Updates to the assignment info will be posted [here](https://jgerstein.github.io/FinalProject19/), resources will be on [the resources page](https://jgerstein.github.io/FinalProject19/resources), and sample code will be in the main repository's [examples](https://github.com/jgerstein/FinalProject19/tree/master/examples) folder.
+## Description
+  My game is heavily based on the Nintendo game series *Animal Crossing*. In *Animal Crossing*, the player is the mayor of a town in which all the villagers are animals. The purpose of the game is to acquire and decorate a house, develop the town, and make friends with the villagers of your town.
 
-## Goal
+  My version of the game features less gameplay than the real *Animal Crossing*, but some parts (like the art and the characters) are the same! 
 
-Plan, code, document, and present a game written in Python. I encourage you to include graphics with Pygame or another game engine, but will not require it.
+  The purpose of my game is to become valedictorian of Magnet, but you discover that you have Fs in every single class! You seek out Mrs. Gerstein (who looks eerily similar to the character Isabelle from the original *Animal Crossing* game), who tells you that you need to complete tasks for teachers in order to raise your grades. These tasks turn out to be collecting fruit! The player must then deliver the correct fruit to each teacher, which will raise their grade to an A and give them a chance at becoming valedictorian!
 
-## Criteria
+## Controls
 
-Excellent work will include:
-
-* Clean, well-written, effective code
-* Version control in Git
-* Clear documentation of how te code works
-* A presentation of the game and of the process of creating it
-* Citations (MLA format) of the resources you used.
-
-## Expectations
-
-### General
-
-* This is intended as an individual project. You may help each other, but you are responsible for your own work.
-* I am willing to consider partnerships for larger and more complex projects
-* You may (and are encouraged to) use resources you find online, but may not outright copy someone else's work and must credit your sources
-* Your work should challenge you but be achievable
-* You are expected to understand how your own code works. If you are not able to explain any part of your own code, that will be cause for concern
-
-### Code
-
-* Your code should make effective use of classes and/or functions. We will review in class
-* Your code should be clear and well documented with comments and appropriate naming schemes
-* Your code should be managed through Git. I will be expecting to see commits reflecting your progress as you work on the project, and would prefer to see feature branches and a stable master branch.
-* Your code should be as reliable and as free of bugs as you can manage
-
-## Timeline
-
-Date  | Checkpoint
+Key   | Action
 ------|---------------------------------------------
-12/16 | Project Proposals Due (all classes)
-12/20 | Git repository setup check
-1/7   | First code checkpoint
-1/13  | Second code checkpoint
-1/17  | Third code checkpoint
-1/23  | Exams Begin. All code and documentation due
+Arrow Keys (up, down, left, right) | Move player
+S     | Start game
+Return| Enter name
+Esc   | Exit game
+T     | Talk to Mrs. Gerstein
+P     | Pick up fruit
 
-## Links
+## Flowchart
 
-* [Documentation](documentation.md)
-* [Resources](resources.md)
+## Presentation
+
+## Works Cited

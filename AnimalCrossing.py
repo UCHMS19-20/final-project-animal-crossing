@@ -42,8 +42,7 @@ key = pygame.key.get_pressed()
 
 # display screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-# # center screen
-# os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 
 font_name = 'src/humming_otf.otf'
 
@@ -81,7 +80,6 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         """allows player to move smoothly"""
 
         key = pygame.key.get_pressed()
-
 
        
         if key[pygame.K_LEFT]:
@@ -363,7 +361,9 @@ class Game():
 
         name() 
 
+
         instructions()
+
 
         
         while self.playing == True:
@@ -508,6 +508,7 @@ def name():
         rect = block.get_rect()
         rect.center = screen.get_rect().center
         screen.blit(block, rect)
+        
         pygame.display.flip()
 
         key = pygame.key.get_pressed()
@@ -566,35 +567,6 @@ def instructions():
 
         if key[pygame.K_BACKSPACE]:
             break
-
-def dialogue():
-    """text box"""
-
-    pygame.init()
-
-    speak = True
-    selected = "yes"
- 
-    while speak:
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                pygame.quit()
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_UP:
-                    selected="yes"
-                if event.key==pygame.K_RETURN:
-                    if selected=="yes":
-                        print("Start")
-                    
-        key = pygame.key.get_pressed()
-
-        if key[pygame.K_SPACE]: 
-        # main menu background image
-            mainmenu = pygame.image.load("src/img/box.png") 
-            screen.blit(mainmenu,(6,1))
-        
-            pygame.display.set_caption("box")
-            pygame.display.flip()
 
         if key[pygame.K_RETURN]:
             break
