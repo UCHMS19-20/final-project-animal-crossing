@@ -13,12 +13,9 @@ pygame.init()
 # predefining some colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-DARKGREY = (40, 40, 40)
-LIGHTGREY = (100, 100, 100)
 GREEN = (0, 255, 0)
-RED = (255, 0, 0)
-YELLOW = (255, 255, 0)
-BGCOLOR = BLACK
+
+
 
 # setting the parameters for the screen
 WIDTH = 1056                                                            
@@ -33,12 +30,8 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 #player settings
 PLAYER_SPEED = {'x': 0, 'y': 0}
 
-# animal images
-ISABELLE_IMG = "src/img/tree1.png"
-# BOB_IMG =
-# LILY_IMG = 
-# COOKIE_IMG =
-# GRIZZLY_IMG = 
+# default font
+font_name = 'src/humming_otf.otf'
 
 key = pygame.key.get_pressed()
 
@@ -51,6 +44,8 @@ key = pygame.key.get_pressed()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # # center screen
 # os.environ['SDL_VIDEO_CENTERED'] = '1'
+
+font_name = 'src/humming_otf.otf'
 
 
 clock = pygame.time.Clock()
@@ -316,15 +311,15 @@ class Game:
         Tree1(self, 16, 2)
         Tree1(self, 9, 4)
         Tree1(self, 2, 3)
-        Tree1(self, 4, 7)
+        Tree1(self, 3, 7)
         Tree1(self, 19, 1)
         Tree1(self, 13, 6)
 
         # fruit positions
-        Apple(self, 9, 10 )
+        Apple(self, 6, 10 )
         Orange(self, 17, 4)
         Peach(self, 2, 2)
-        Pear(self, 19, 11)
+        Pear(self, 17, 10)
 
     def run(self):
         """game loop"""
@@ -337,13 +332,14 @@ class Game:
 
         name() 
 
-        
+        instructions()
         
         while self.playing == True:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
             self.draw()
+            # dialogue()
 
             
         
@@ -376,6 +372,7 @@ class Game:
         self.rect = self.screenimage.get_rect()
         screen.blit(self.screenimage, self.rect)
     
+        self.draw_grid() 
 
         # draw sprites
     
@@ -476,6 +473,57 @@ def name():
         if key[pygame.K_RETURN]:
             break
 
+def instructions():
+    """h"""
+    speak = True
+    selected = "yes"
+ 
+    while speak:
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:
+                pygame.quit()
+            if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_UP:
+                    selected="yes"
+                if event.key==pygame.K_RETURN:
+                    if selected=="yes":
+                        print("Start")
+                    
+                    
+        key = pygame.key.get_pressed()
+
+
+        # main menu background image
+        mainmenu = pygame.image.load("src/img/box.png") 
+        screen.blit(mainmenu,(6,1))
+        
+        pygame.display.set_caption("instructions")
+        
+        # define font
+        font = pygame.font.Font(font_name, 30)
+
+        block = font.render("Instructions", True, WHITE)
+        screen.blit(block, (120, 35))
+
+        block = font.render("Move with ARROW KEYS", True, WHITE)
+        screen.blit(block, (150,110))
+
+        block = font.render("Get rid of text box by pressing BACKSPACE", True, WHITE)
+        screen.blit(block, (150,155))
+
+        block = font.render("Talk to NPC by pressing T", True, WHITE)
+        screen.blit(block, (150,200))
+
+        block = font.render("Pick up by pressing P", True, WHITE)
+        screen.blit(block, (150,245))
+
+        block = font.render("Your first task: Find and talk to Mrs. Gerstein!", True, WHITE)
+        screen.blit(block, (150,290))
+
+        pygame.display.flip()
+
+        if key[pygame.K_BACKSPACE]:
+            break
 
 def dialogue():
     """text box"""
@@ -501,7 +549,7 @@ def dialogue():
         if key[pygame.K_SPACE]: 
         # main menu background image
             mainmenu = pygame.image.load("src/img/box.png") 
-            screen.blit(mainmenu,(0,0))
+            screen.blit(mainmenu,(6,1))
         
             pygame.display.set_caption("box")
             pygame.display.flip()
