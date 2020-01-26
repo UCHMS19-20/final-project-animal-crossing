@@ -24,4 +24,6 @@ P     | Pick up fruit
 
 ### Presentation
 
+[Click Here!](https://docs.google.com/presentation/d/1b6OgdpHbgPjyEcvxBnr-5OQckt29qgY_Flpmywt9k6M/edit?usp=sharing)
+
 ### Works Cited
