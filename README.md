@@ -1,5 +1,6 @@
-# **Olivia Qiu's Final Tech Project** 
-##Animal Crossing: Magnet Edition
+# Olivia Qiu's Final Tech Project
+
+## Animal Crossing: Magnet Edition
 
 ### Description
   My game is heavily based on the Nintendo game series *Animal Crossing*. In *Animal Crossing*, the player is the mayor of a town in which all the villagers are animals. The purpose of the game is to acquire and decorate a house, develop the town, and make friends with the villagers of your town.
