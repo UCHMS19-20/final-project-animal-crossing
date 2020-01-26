@@ -395,19 +395,46 @@ class Game():
             pygame.draw.line(self.screen, GREEN, (0, y), (WIDTH, y))
 
     def Isabelle_talk(self):
-        
-        events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_i:
-                    box = pygame.image.load("src/img/box.png") 
-                    screen.blit(box,(6,1))
-                    pygame.display.flip()
-                elif event.key == pygame.K_i:
-                    break
-                elif event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+        menu = True
+        selected = "start"
+
+        for event in pygame.event.get():
+                if event.type==pygame.K_t:
+                    while menu:
+                        
+                        # main menu background image
+                        mainmenu = pygame.image.load("src/img/box.png") 
+                        screen.blit(mainmenu,(0,0))
+                        
+                        pygame.display.set_caption("main menu")
+                        pygame.display.flip()
+
+                        key = pygame.key.get_pressed()
+                        
+                        if key[pygame.K_s]:
+                            break
+                        elif key[pygame.K_ESCAPE]:
+                            pygame.quit()
+                            sys.exit()
+
+        # events = pygame.event.get()
+        # for event in events:
+        #     if event.type == pygame.KEYDOWN:
+        #         key = pygame.key.get_pressed()
+    
+        #         if event.key == pygame.K_i:
+        #             show_img = True
+        #             while show_img ==  True:
+        #                 box = pygame.image.load("src/img/box.png") 
+        #                 screen.blit(box,(6,1))
+        #                 pygame.display.flip()
+        #                 pygame.display.update()
+        #         elif event.key == pygame.K_RETURN:
+        #             pygame.quit()
+        #             break
+        #         elif event.key == pygame.K_ESCAPE:
+        #             pygame.quit()
+        #             sys.exit()
               
 
     def draw(self):
