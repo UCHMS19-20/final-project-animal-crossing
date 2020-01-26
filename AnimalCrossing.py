@@ -409,6 +409,8 @@ class Game():
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
 
+        self.all_sprites = pygame.sprite.Group()
+        
         events = pygame.event.get()
         for event in events:
             if 240 < self.x < 384 and 240 < self.y < 336:
