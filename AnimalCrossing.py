@@ -396,15 +396,15 @@ class Game():
 
     def Isabelle_talk(self):
         
-        while True:
-            events = pygame.event.get()
+        events = pygame.event.get()
             for event in events:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_i:
                         box = pygame.image.load("src/img/box.png") 
                         screen.blit(box,(6,1))
                         pygame.display.flip()
-                        pygame.quit()
+                    if event.key == pygame.K_i:
+                        break
               
 
     def draw(self):
