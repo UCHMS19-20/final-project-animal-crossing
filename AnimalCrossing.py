@@ -397,14 +397,17 @@ class Game():
     def Isabelle_talk(self):
         
         events = pygame.event.get()
-            for event in events:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_i:
-                        box = pygame.image.load("src/img/box.png") 
-                        screen.blit(box,(6,1))
-                        pygame.display.flip()
-                    if event.key == pygame.K_i:
-                        break
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_i:
+                    box = pygame.image.load("src/img/box.png") 
+                    screen.blit(box,(6,1))
+                    pygame.display.flip()
+                elif event.key == pygame.K_i:
+                    break
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
               
 
     def draw(self):
