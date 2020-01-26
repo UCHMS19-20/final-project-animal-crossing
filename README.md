@@ -8,6 +8,7 @@
   My version of the game features less gameplay than the real *Animal Crossing*, but some parts (like the art and the characters) are the same! 
 
   The purpose of my game is to become valedictorian of Magnet, but you discover that you have Fs in every single class! You seek out Mrs. Gerstein (who looks eerily similar to the character Isabelle from the original *Animal Crossing* game), who tells you that you need to complete tasks for teachers in order to raise your grades. These tasks turn out to be collecting fruit! The player must then deliver the correct fruit to each teacher, which will raise their grade to an A and give them a chance at becoming valedictorian!
+  
 
 ### Controls
 
@@ -20,10 +21,13 @@ Esc   | Exit game
 T     | Talk to Mrs. Gerstein
 P     | Pick up fruit
 
+
 ### Flowchart
+
 
 ### Presentation
 
 [Click Here!](https://docs.google.com/presentation/d/1b6OgdpHbgPjyEcvxBnr-5OQckt29qgY_Flpmywt9k6M/edit?usp=sharing)
+
 
 ### Works Cited
