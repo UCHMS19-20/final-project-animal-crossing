@@ -60,7 +60,9 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
     """Player class"""
     def __init__(self, game, x, y): 
         """creates the icon that the player can move around on the grid"""
+
         self.groups = game.all_sprites
+
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
 
@@ -76,13 +78,15 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
 
         self.vx, self.vy = 0, 0
 
-        self.rect = pygame.Rect(48, 48, 48, 48)
+        self.hitbox = (self.x, self.y, 48, 48)
 
     def smooth_movement(self):
         """allows player to move smoothly"""
 
         key = pygame.key.get_pressed()
 
+        self.hitbox = (self.x, self.y, 48, 48)
+        pygame.draw.rect(screen, WHITE, self.hitbox)
        
         if key[pygame.K_LEFT]:
             self.vx -= 18
@@ -127,6 +131,9 @@ class Player(pygame.sprite.Sprite): # player that can be moved by keys
         self.collide_with_walls('x')
         self.rect.y = self.y
         self.collide_with_walls('y')
+
+        self.hitbox = (self.x, self.y, 48, 48)
+        pygame.draw.rect(screen, WHITE, self.hitbox)
 
 
     def collide_with_walls(self, dir):
@@ -251,6 +258,19 @@ class Tree1(pygame.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
+class Isabelle(pygame.sprite.Sprite):
+    """Isabelle class"""
+    def __init__(self, game, x, y):
+        """makes Isabelle (Ms. Gerstein)"""
+        self.groups = game.all_sprites, game.walls
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.image.load("src/img/isabelle.png")
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
 class Game:
     """Game class"""
@@ -282,6 +302,9 @@ class Game:
         #town hall position
         Hall(self, 5, 3)
 
+        #isabelle position
+        Isabelle(self, 6, 5)
+
         
 
         #tree  positions
@@ -289,7 +312,7 @@ class Game:
         Tree1(self, 2, 11)
         Tree1(self, 15, 10)
         Tree1(self, 20, 8)
-        Tree1(self, 6, 9)
+        Tree1(self, 4, 9)
         Tree1(self, 16, 2)
         Tree1(self, 9, 4)
         Tree1(self, 2, 3)
@@ -353,9 +376,9 @@ class Game:
         self.rect = self.screenimage.get_rect()
         screen.blit(self.screenimage, self.rect)
     
-        
 
         # draw sprites
+    
         self.all_sprites.draw(self.screen)
         pygame.display.flip()
 
