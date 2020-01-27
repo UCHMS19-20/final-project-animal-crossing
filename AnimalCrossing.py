@@ -403,8 +403,9 @@ class Game():
             pygame.event.pump() 
             if pygame.key.get_pressed()[pygame.K_BACKSPACE]: 
                 talk = False #if the user presses spacebar
-                if not talk:
-                    break
+                if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                    pygame.quit()
+                    sys.exit()
                 # pygame.display.flip() 
                 # clock.tick(60)
                 
