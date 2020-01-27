@@ -253,20 +253,8 @@ class Pear(pygame.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
-# seperate classes for town hall and houses/trees bc town hall is 2x3 squares and trees/houses are 2x2 squares
-class Hall(pygame.sprite.Sprite): 
-    """Hall class"""
-    def __init__(self, game, x, y):
-        """makes the town hall that shows up on the screen"""
-        self.groups = game.all_sprites, game.walls
-        pygame.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = pygame.image.load("src/img/townhall.png")
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
+
+
 
 class Tree1(pygame.sprite.Sprite):
     """Tree class"""
@@ -319,10 +307,7 @@ class Game():
         self.walls = pygame.sprite.Group()
         self.Isabelle = pygame.sprite.Group()
 
-        
-
-        #town hall position
-        Hall(self, 5, 3)
+    
 
         #isabelle position
         Isabelle(self, 6, 5)
@@ -330,21 +315,21 @@ class Game():
         
 
         #tree  positions
-        Tree1(self, 10, 2)
+        
         Tree1(self, 2, 11)
-        Tree1(self, 15, 10)
+        Tree1(self, 13, 8)
         Tree1(self, 20, 8)
         Tree1(self, 4, 9)
-        Tree1(self, 16, 2)
-        Tree1(self, 9, 4)
+        Tree1(self, 15, 10)
         Tree1(self, 2, 3)
         Tree1(self, 3, 7)
         Tree1(self, 19, 1)
-        Tree1(self, 13, 6)
+        Tree1(self, 6, 1)
+        
 
         # fruit positions
         Apple(self, 6, 10 )
-        Orange(self, 17, 4)
+        Orange(self, 18, 4)
         Peach(self, 2, 2)
         Pear(self, 17, 10)
 
@@ -370,10 +355,7 @@ class Game():
             self.update()
             self.draw()
             
-            
-            
-
-    
+        
         
        
     def quit(self):
@@ -432,11 +414,21 @@ class Game():
                 print(collected_fruit)
 
     def Isabelle_talk(self):
-         
-        box = pygame.image.load("src/img/box.png") 
+        global name
+
+        box = pygame.image.load("src/img/box.png")
+        screen.blit(block, (480, 0)) 
         
         if pygame.key.get_pressed()[pygame.K_t]: 
-            screen.blit(box, (100, 100))
+
+            font = pygame.font.Font(font_name, 30)
+
+            block = font.render("Mrs. Gerstein", True, WHITE)
+            screen.blit(block, (110, 35))
+
+            block = font.render(f"Hello {name}!", True, WHITE)
+            screen.blit(block, (150, 100))
+
             pygame.display.flip()
         
         
@@ -536,6 +528,7 @@ def main_menu():
 
 
 def name():
+    global name
     name = ""
     font_name = 'src/humming_otf.otf'
     font = pygame.font.Font(font_name, 50)
