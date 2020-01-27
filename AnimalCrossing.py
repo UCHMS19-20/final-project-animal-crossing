@@ -273,16 +273,22 @@ class Isabelle(pygame.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
+        self.talking = False
+
+#isabelle position
+isabe = Isabelle(self, 6, 5)
+
 class Game():
     """all the main functions for the actual game"""
     def __init__(self):
         """creates screen and window"""
-        
+        global t_pressed
         #screen and window creation
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
         # clock object
         self.clock = pygame.time.Clock()
+        t_pressed = False
     
 
     def new(self):
@@ -295,8 +301,8 @@ class Game():
         # the numbers are the coordinates by tile, not pixel (so position divided by 48)
         # the coordinates go from the top left corner of the image
 
-        #isabelle position
-        Isabelle(self, 6, 5)
+        # isabelle position
+        # isabe = Isabelle(self, 6, 5)
 
     
         #tree  positions
@@ -407,6 +413,7 @@ class Game():
         """all the actual dialogue so far"""
         # the user inputted their name
         global name
+        global t_pressed
 
         #initialize font
         font = pygame.font.Font(font_name, 15)
@@ -415,8 +422,16 @@ class Game():
             # check for key press
             # define all the variables first: images & text.
             # blit everything onto the screen
-        
+
+
+
         if pygame.key.get_pressed()[pygame.K_t]: 
+            t_pressed = True
+
+        if t_pressed:
+            isabe.talking = not isabe.talking
+
+        if isabe.talking:
             box = pygame.image.load("src/img/smaller_box.png")
             block1 = font.render("Mrs. Gerstein", True, WHITE)
             block2 = font.render(f"Hello {name}! Welcome to Magnet!", True, WHITE)
