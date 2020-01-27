@@ -7,6 +7,7 @@
 
   The purpose of my game is to become valedictorian of Magnet, but you discover that you have Fs in every single class! You seek out Mrs. Gerstein (who looks eerily similar to the character Isabelle from the original *Animal Crossing* game), who tells you that you need to complete tasks for teachers in order to raise your grades. These tasks turn out to be collecting fruit! You must then deliver the correct fruit to each teacher, which will raise your grade to an A and give you a chance at becoming valedictorian!
 
+*Note: I have only coded the part of the game up to the completion of Ms. Arnold's request, because the rest of the game is very similar, but it would just take a very long time to write out the rest of the dialogue.
 
 ## Controls
 
