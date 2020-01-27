@@ -397,14 +397,14 @@ class Game():
         screen.blit(box,(0,0))
         pygame.display.flip()
 
-        if pygame.key.get_pressed()[pygame.K_t]:
-            talk=True
-            while talk: 
-                pygame.event.pump() 
-                if pygame.key.get_pressed()[pygame.K_BACKSPACE]: 
-                    talk = False #if the user presses spacebar
-    
-                # pygame.display.flip() #keep the window active
+        
+        talk=True
+        while talk: 
+            pygame.event.pump() 
+            if pygame.key.get_pressed()[pygame.K_BACKSPACE]: 
+                talk = False #if the user presses spacebar
+                pygame.display.flip() 
+                clock.tick(60)
                 
 
         # events = pygame.event.get()
