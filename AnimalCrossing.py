@@ -692,7 +692,7 @@ def instructions():
         block = font.render("Your first task: Find and talk to Mrs. Gerstein!", True, WHITE)
         screen.blit(block, (150,155))
 
-        block = font.render("Talk to her by pressing T", True, WHITE)
+        block = font.render("Talk to her by holding T", True, WHITE)
         screen.blit(block, (150,200))
 
         block = font.render("Get rid of these instructions by", True, WHITE)
