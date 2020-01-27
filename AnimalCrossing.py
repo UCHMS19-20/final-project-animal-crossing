@@ -1,59 +1,56 @@
+# import pygame
 import pygame 
 import sys
-import random
+# operating system: i just need this so i can center the screen
 import os
+# import stuff like event/key/display
 from pygame.locals import *
 
-#center screen 
+# center screen 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 #initialize pygame
 pygame.init()
 
-# predefining some colors
+# predefine some colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GREEN = (0, 255, 0)
-
-
+GREEN = (0, 225, 0)
 
 # setting the parameters for the screen
 WIDTH = 1056                                                            
 HEIGHT = 624
-FPS = 100
-TITLE = "Animal Crossing"
+
+# measurement (in pixels) of individual tiles height/width
 TILESIZE = 48
-# sizes of the grids
+# sizes of the grids in tiles
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
-#player settings
+
+# caption
+TITLE = "Animal Crossing"
+
+#player speed settings
 PLAYER_SPEED = {'x': 0, 'y': 0}
 
-# default font
+# default font (official animal crossing font)
 font_name = 'src/humming_otf.otf'
 
+# create an object to detect key presses
 key = pygame.key.get_pressed()
-
-# # play background music
-# pygame.mixer.init()
-# pygame.mixer.music.load("src/3pm.mp3")
-# pygame.mixer.music.play(-1,0.0)
 
 # display screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-# # center screen
-# os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-font_name = 'src/humming_otf.otf'
-
-
+# create an object to help track time
 clock = pygame.time.Clock()
+#framerate
 FPS = 30
 
 
-class Player(pygame.sprite.Sprite): # player that can be moved by keys
-    """Player class"""
+class Player(pygame.sprite.Sprite): 
+    """this is what the user is going to be moving around on the screen"""
     def __init__(self, game, x, y): 
         """creates the icon that the player can move around on the grid"""
 
@@ -395,36 +392,27 @@ class Game():
             pygame.draw.line(self.screen, GREEN, (0, y), (WIDTH, y))
 
     def Isabelle_talk(self):
-        menu = True
-        selected = "start"
+         
+        box = pygame.image.load("src/img/box.png") 
+        screen.blit(box,(0,0))
+        pygame.display.flip()
 
-        for event in pygame.event.get():
-                if event.type==pygame.K_t:
-                    while menu:
-                        
-                        # main menu background image
-                        mainmenu = pygame.image.load("src/img/box.png") 
-                        screen.blit(mainmenu,(0,0))
-                        
-                        pygame.display.set_caption("main menu")
-                        pygame.display.flip()
-
-                        key = pygame.key.get_pressed()
-                        
-                        if key[pygame.K_s]:
-                            break
-                        elif key[pygame.K_ESCAPE]:
-                            pygame.quit()
-                            sys.exit()
+        if pygame.key.get_pressed()[pygame.K_t]:
+            talk=True
+            while talk: 
+                pygame.event.pump() 
+                if pygame.key.get_pressed()[pygame.K_BACKSPACE]: 
+                    talk = False #if the user presses spacebar
+    
+                # pygame.display.flip() #keep the window active
+                
 
         # events = pygame.event.get()
         # for event in events:
         #     if event.type == pygame.KEYDOWN:
-        #         key = pygame.key.get_pressed()
-    
-        #         if event.key == pygame.K_i:
+        #         if event.key == pygame.K_t:
         #             show_img = True
-        #             while show_img ==  True:
+        #             if show_img ==  True:
         #                 box = pygame.image.load("src/img/box.png") 
         #                 screen.blit(box,(6,1))
         #                 pygame.display.flip()
