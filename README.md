@@ -16,7 +16,6 @@ Arrow Keys (up, down, left, right) | Move player
 S     | Start game
 Return| Enter name
 Esc   | Exit game
-
 Various letter keys| Advance dialogue
 A, O, P, R     | Pick up fruit
 
