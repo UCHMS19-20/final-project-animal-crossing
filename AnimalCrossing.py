@@ -523,7 +523,7 @@ class Game():
                 screen.blit(card, (384, 0))
                 screen.blit(block, (741, 460))
         
-        if pygame.key.get_pressed()[pygame.K_s]: 
+        if pygame.key.get_pressed()[pygame.K_n]: 
             box = pygame.image.load("src/img/smaller_box.png")
             block1 = font.render("Mrs. Gerstein", True, WHITE)
             block2 = font.render(f"Whoohoo {name}!", True, WHITE)
@@ -576,7 +576,7 @@ class Game():
                     self.quit()
 
 def main_menu():
-     """starting screen of the game"""
+    """starting screen of the game"""
 
     menu = True
     selected = "start"
@@ -642,7 +642,7 @@ def name():
         mainmenu = pygame.image.load("src/img/nameentry.png") 
         screen.blit(mainmenu,(0,0))
         # rect for the text to go inside
-        block = font.render(name, True, (254, 192, 30)# this is mustard yellow)
+        block = font.render(name, True, (254, 192, 30))
         rect = block.get_rect()
         rect.center = screen.get_rect().center # center the rect on the screen
         screen.blit(block, rect)
