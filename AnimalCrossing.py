@@ -48,6 +48,7 @@ clock = pygame.time.Clock()
 #framerate
 FPS = 30
 
+collected_fruit = []
 
 class Player(pygame.sprite.Sprite): 
     """this is what the user is going to be moving around on the screen"""
@@ -391,24 +392,54 @@ class Game():
         for y in range(0, HEIGHT, TILESIZE):
             pygame.draw.line(self.screen, GREEN, (0, y), (WIDTH, y))
 
+    def collect_fruit(self):
+        patch = pygame.image.load("src/img/patch.png") 
+
+        if len(collected_fruit) < 1:
+            if pygame.key.get_pressed()[pygame.K_a]: 
+                screen.blit(patch, (288, 480))
+                pygame.display.flip()
+                collected_fruit.append("apple")
+                print(collected_fruit)
+            if pygame.key.get_pressed()[pygame.K_o]: 
+                screen.blit(patch, (288, 480))
+                pygame.display.flip()
+                collected_fruit.append("orange")
+                print(collected_fruit)
+            if pygame.key.get_pressed()[pygame.K_p]: 
+                screen.blit(patch, (288, 480))
+                pygame.display.flip()
+                collected_fruit.append("peach")
+                print(collected_fruit)
+            if pygame.key.get_pressed()[pygame.K_r]: 
+                screen.blit(patch, (288, 480))
+                pygame.display.flip()
+                collected_fruit.append("pear")
+                print(collected_fruit)
+
+        elif len(collected_fruit) == 1:
+            if pygame.key.get_pressed()[pygame.K_1]:    
+                collected_fruit.remove("apple")
+                print(collected_fruit)
+            if pygame.key.get_pressed()[pygame.K_2]: 
+                collected_fruit.remove("orange")
+                print(collected_fruit)
+            if pygame.key.get_pressed()[pygame.K_3]: 
+                collected_fruit.remove("peach")
+                print(collected_fruit)
+            if pygame.key.get_pressed()[pygame.K_4]: 
+                collected_fruit.remove("pear")
+                print(collected_fruit)
+
     def Isabelle_talk(self):
          
         box = pygame.image.load("src/img/box.png") 
-        screen.blit(box,(0,0))
-        pygame.display.flip()
-
         
-        talk=True
-        while talk: 
-            pygame.event.pump() 
-            if pygame.key.get_pressed()[pygame.K_BACKSPACE]: 
-                talk = False #if the user presses spacebar
-            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                pygame.quit()
-                sys.exit()
-                # pygame.display.flip() 
-                # clock.tick(60)
-                
+        if pygame.key.get_pressed()[pygame.K_t]: 
+            screen.blit(box, (100, 100))
+            pygame.display.flip()
+        
+        
 
         # events = pygame.event.get()
         # for event in events:
@@ -447,6 +478,7 @@ class Game():
         pygame.display.flip()
 
         self.Isabelle_talk()
+        self.collect_fruit()
                     
     
 
