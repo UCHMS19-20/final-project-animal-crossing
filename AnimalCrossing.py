@@ -84,6 +84,7 @@ class Player(pygame.sprite.Sprite):
         key = pygame.key.get_pressed()
 
 
+
        # how much the velocity of the player changes while the key is pressed
         if key[pygame.K_LEFT]:
             self.vx -= 18
@@ -93,6 +94,7 @@ class Player(pygame.sprite.Sprite):
             self.vy -= 18
         elif key[pygame.K_DOWN]:
             self.vy += 18
+
 
         # friction x direction
         if self.vx > 12:
@@ -108,6 +110,7 @@ class Player(pygame.sprite.Sprite):
             self.vy = 0
         else:
             self.vy += 12
+
 
 
     def update(self, x = 0, y = 0):
@@ -328,6 +331,7 @@ class Game():
         main_menu()
         name() 
         instructions()
+
 
         # main loop
         while self.playing == True:
@@ -646,12 +650,14 @@ def name():
         rect = block.get_rect()
         rect.center = screen.get_rect().center # center the rect on the screen
         screen.blit(block, rect)
+        
         pygame.display.flip()
 
         key = pygame.key.get_pressed()
         # if they press return, the game continues
         if key[pygame.K_RETURN]:
             break
+
 
 def instructions():
     """introductory instructions for the player"""
@@ -706,6 +712,7 @@ def instructions():
         # if backspace is pressed, the game continues
         if pygame.key.get_pressed()[pygame.K_BACKSPACE]: 
             break
+
 
 
 # create the game object
