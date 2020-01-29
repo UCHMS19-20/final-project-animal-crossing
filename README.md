@@ -22,6 +22,8 @@ A, O, P, R     | Pick up fruit
 
 ## Flowchart
 
+[Click Here](https://drive.google.com/open?id=1DMmfnun9cyFlKdUljCuFiOnKeWVbXocv)
+
 ## Presentation
 
 [Click Here](https://docs.google.com/presentation/d/1b6OgdpHbgPjyEcvxBnr-5OQckt29qgY_Flpmywt9k6M/edit?usp=sharing)
